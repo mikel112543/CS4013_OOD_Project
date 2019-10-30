@@ -1,0 +1,8 @@
+CS4013 Software Development Project
+University of Limerick
+
+Developed by:
+Michael Danaher
+John Maguire
+Aaron Foster
+Ayoub Jdair
