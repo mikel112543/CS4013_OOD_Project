@@ -1,4 +1,5 @@
 import java.time.LocalDateTime;
+import java.util.Scanner;
 
 public class Room {
     private LocalDateTime checkInDate;
@@ -9,7 +10,10 @@ public class Room {
     protected int adultOccupancy = 1;
     protected String roomType;
     protected int cost;
-    protected int deposit;
+    protected static int deposit;
+    Scanner reserveName = new Scanner(System.in);
+
+
 
     public int getReservationNumber() {
         return reservationNumber;
@@ -18,4 +22,14 @@ public class Room {
     public void setReservationNumber(int reservationNumber) {
         this.reservationNumber = reservationNumber;
     }
+
+    public String getReservationName() {
+        return reservationName;
+    }
+
+    public void setReservationName(String reservationName) {
+        this.reservationName = reservationName;
+    }
+
+
 }
