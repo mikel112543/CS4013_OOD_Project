@@ -1,35 +1,39 @@
 import java.time.LocalDateTime;
-import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Room {
-    private LocalDateTime checkInDate;
-    protected String reservationName;
-    protected int numberOfRooms;
-    protected int reservationNumber;
-    protected String reservationType;
-    protected int adultOccupancy = 1;
-    protected String roomType;
-    protected int cost;
-    protected static int deposit;
-    Scanner reserveName = new Scanner(System.in);
+    private String roomType;
+    private int noOfRooms;
+    public List<Room> fiveStar = new ArrayList<>();
+    protected int noOfChildren;
+    protected int noOfAdults = 1;
 
-
-
-    public int getReservationNumber() {
-        return reservationNumber;
+    public void setNoOfAdults(int noOfAdults) {
+        this.noOfAdults = noOfAdults;
     }
 
-    public void setReservationNumber(int reservationNumber) {
-        this.reservationNumber = reservationNumber;
+    public int getNoOfAdults() {
+        return noOfAdults;
     }
 
-    public String getReservationName() {
-        return reservationName;
+    public void setNoOfChildren(int noOfChildren) {
+        this.noOfChildren = noOfChildren;
     }
 
-    public void setReservationName(String reservationName) {
-        this.reservationName = reservationName;
+    public int getNoOfChildren() {
+        return noOfChildren;
     }
 
+    public Room(String roomType, int noOfAdults, int noOfChildren, boolean breakfast) {
+        this.roomType = roomType;
+        this.noOfAdults = noOfAdults;
+        this.noOfChildren = noOfChildren;
 
+    }
+
+    public Room(String roomType, int noOfRooms) {
+        this.roomType = roomType;
+        this.noOfRooms = noOfRooms;
+    }
 }
