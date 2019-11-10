@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class Customer {
-    protected int resNumber;
+    
     protected String roomTypeRes;
     protected int adultOcc;
     protected int childOcc;
@@ -117,7 +117,6 @@ public class Customer {
                 //reserveRoom(roomTypeRes, 1, childOcc, breakfast, typeOfRes);
             }
             i++;
-
         }
 
     }
