@@ -12,15 +12,13 @@ public class Reservation {
     protected int day, month, year;
     private final static long MILLIS_PER_DAY = 24 * 60 * 60 * 1000L;
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-    ArrayList<Room> rooms = new ArrayList<Room>();
+    ArrayList<Room[]> rooms = new ArrayList<Room[]>();
     ArrayList<Double> reservationNumbers = new ArrayList<>();
     ArrayList<Reservation> reservations = new ArrayList<>();
     ArrayList<Reservation> cancellations = new ArrayList<>();
 
     public void pickRooms(Room... room) {
-        for (Room r : room) {
-            rooms.add(room);
-        }
+        rooms.add(room);
     }
 
     protected double getDeposit() {
