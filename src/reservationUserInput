@@ -46,7 +46,7 @@ public class Reservation {
         numberOfNights = input.nextInt();
     }
 
-    public void getCheckInDateAndDate(){
+    public void getCheckInDateAndDayOfWeek(){
         Scanner input = new Scanner(System.in);
         System.out.println("Year of Check-In?");
         year = input.nextInt();
@@ -104,7 +104,7 @@ public class Reservation {
 
         int i = 1;
         int typeOfRoom;
-        while (i < numberOfRooms) {
+        while (i <= numberOfRooms) {
             System.out.println("Do you want breakfast for room " + i + "(Y/N)");
             breakfast = input.next();
             System.out.println("Select room type for room " + i);
@@ -119,6 +119,7 @@ public class Reservation {
                     switch (typeOfRoom) {
                         case 1:
                             occupancyDoubleSingleTwin(input, typeOfRoom);
+                            break;
                         default:
                             System.out.println("1 or 2 or 3 adults for this room");
                             adultOcc = input.nextInt();
@@ -127,8 +128,6 @@ public class Reservation {
                             break;
                     }
                     break;
-
-
 
                 case 4:
                     for (int j = 0; j < fourStarHotel.length; j++) {
