@@ -15,7 +15,7 @@ public class reservationUserInput{
     protected Date checkInDate;
     protected double resTotalCost;
     protected double resDeposit;
-    protected ArrayList<Room> rooms = new ArrayList<Room>();
+    protected ArrayList<Room> rooms = new ArrayList<>();
 
 
 
@@ -27,10 +27,14 @@ public class reservationUserInput{
         nameReservation = input.next();
 
         System.out.println("How many rooms would you like to book?");
+        numbOfRooms = input.nextInt();
 
 
         System.out.println("How many nights do you want the room/s for?");
         numbOfNights = input.nextInt();
+
+        //System.out.println("What date would you like to book this room for?");
+
 
 
         int resNumber = 0;
@@ -44,9 +48,9 @@ public class reservationUserInput{
 
         System.out.println("What type of room do you want?" + "\n");
         int typeOfRoom = 0;
-        String[] fiveStarHotel = (new String[]{"Deluxe Double" + "Deluxe Twin" + "Deluxe Single" + "Deluxe Family"});
-        String[] fourStarHotel = (new String[]{"Executive Double" + "Executive Twin" + "Executive Single"});
-        String[] threeStarHotel = (new String[]{"Classic Double" + "Classic Twin" + "Classic Single"});
+        String[] fiveStarHotel = (new String[]{"Deluxe Double" , "Deluxe Twin" , "Deluxe Single" , "Deluxe Family"});
+        String[] fourStarHotel = (new String[]{"Executive Double" , "Executive Twin" , "Executive Single"});
+        String[] threeStarHotel = (new String[]{"Classic Double" , "Classic Twin" , "Classic Single"});
 
         while (i <= numbOfRooms) {
             switch (hotel) {

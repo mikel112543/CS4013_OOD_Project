@@ -8,6 +8,7 @@ public class Room {
     private int noOfChildren = 0;
     private int noOfAdults = 1;
 
+
     public Room() {
         roomType = "";
         noOfRooms = 0;
@@ -22,6 +23,9 @@ public class Room {
         this.noOfAdults = noOfAdults;
         this.noOfChildren = noOfChildren;
         this.breakfast = breakfast;
+    }
+
+    public Room(String executive_single, int i, int noOfAdults, int noOfChildren, boolean breakfast, double price) {
     }
 
 
