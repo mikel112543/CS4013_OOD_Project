@@ -4,7 +4,7 @@ public class Room {
     private String roomType;
     private int noOfRooms;
     protected double price;
-    boolean breakfast = false;
+    public boolean breakfast = false;
     private int noOfChildren = 0;
     private int noOfAdults = 1;
 
@@ -15,6 +15,18 @@ public class Room {
         noOfAdults = 1;
         breakfast = false;
 
+    }
+
+    public Room(String roomType, int noOfAdults, int noOfChildren, boolean breakfast) {
+        this.roomType = roomType;
+        this.noOfAdults = noOfAdults;
+        this.noOfChildren = noOfChildren;
+        this.breakfast = breakfast;
+    }
+
+
+    public void setNoOfRooms(int noOfRooms) {
+        this.noOfRooms = noOfRooms;
     }
 
     public int getNoOfRooms() {
@@ -49,9 +61,8 @@ public class Room {
         return noOfChildren;
     }
 
-    public Room(String roomType, int noOfRooms, int noOfAdults, int noOfChildren, boolean breakfast, double price) {
+    public Room(String roomType, int noOfAdults, int noOfChildren, boolean breakfast, double price) {
         this.roomType = roomType;
-        this.noOfRooms = noOfRooms;
         this.noOfAdults = noOfAdults;
         this.noOfChildren = noOfChildren;
         this.breakfast =  breakfast;
@@ -67,6 +78,7 @@ public class Room {
     public void addBreakfast() {
         this.breakfast = true;
     }
+
 
     @Override
     public String toString() {

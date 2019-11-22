@@ -1,6 +1,6 @@
 public class DriverTest {
     public static void main(String[] args) {
-        Customer customer = new Customer();
-        customer.reserveRoom();
+        reservationUserInput reservation = new reservationUserInput();
+        reservation.getUserInput();
     }
 }
