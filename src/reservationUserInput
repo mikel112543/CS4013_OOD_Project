@@ -1,4 +1,3 @@
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Scanner;
@@ -19,7 +18,7 @@ public class reservationUserInput {
     protected String roomType;    //7
     protected int adultOcc;
     protected int childOcc;
-    protected String breakfast;
+    protected boolean breakfast;
 
     protected int totalCost;        //8
     protected int deposit;          //9
@@ -88,7 +87,9 @@ public class reservationUserInput {
         int typeOfRoom;
         while (i <= numberOfRooms) {
             System.out.println("Do you want breakfast for room " + i + "(Y/N)");
-            breakfast = input.next();
+            String decision = input.next();
+            breakfast = decision.equalsIgnoreCase("y");
+
             System.out.println("Select room type for room " + i);
             switch (hotel) {
                 case 5:
@@ -98,17 +99,20 @@ public class reservationUserInput {
                     }
                     typeOfRoom = input.nextInt();
 
+
                     switch (typeOfRoom) {
                         case 1:
                         case 2:
                         case 3:
                             occupancyDoubleSingleTwin(input, typeOfRoom);
+                            roomType = fiveStarHotel[typeOfRoom - 1];
                             break;
                         default:
                             System.out.println("1 or 2 or 3 adults for this room");
                             adultOcc = input.nextInt();
                             System.out.println("1 or 0 children for this room");
                             childOcc = input.nextInt();
+                            roomType = fiveStarHotel[typeOfRoom - 1];
                             break;
                     }
                     break;
@@ -118,24 +122,27 @@ public class reservationUserInput {
                         System.out.print((j + 1)+ ")");
                         System.out.println(fourStarHotel[j]);
                     }
-                        typeOfRoom = input.nextInt();
+                    typeOfRoom = input.nextInt();
                     occupancyDoubleSingleTwin(input, typeOfRoom);
+                    roomType = fourStarHotel[typeOfRoom - 1];
                     break;
                 default:
                     for (int j = 0; j < threeStarHotel.length; j++) {
                         System.out.print((j + 1)+ ")");
                         System.out.println(threeStarHotel[j]);
                     }
-                        typeOfRoom = input.nextInt();
+                    typeOfRoom = input.nextInt();
                     occupancyDoubleSingleTwin(input, typeOfRoom);
+                    roomType = threeStarHotel[typeOfRoom - 1];
+
 
             }
-
-            //checkInDay (eg mon), number of nights (eg 20), then get Cost of each room.
-            //number of nights / 7 = number of weeks stayed.... numberOfWeeks x costOfOneWeek = costForAllWeeks.
-            //number of nights % 7 = leftover days. ifCheckInDay is monday, go monday + leftoverDays.. eg if Monday and 6 leftOver is 2, monday + tuesday.
+            //method to get a priceOfRoom figure, and then add this as a parameter below. In that, you have a double called "totalPrice" and the price of each room is added to that.
+            int priceOfOneRoom = getTotalPrice((String)roomType, (String) checkInDay, (int) numberOfNights);
+            Room room = new Room(roomType, adultOcc, childOcc, breakfast, priceOfOneRoom);
+            System.out.println(room.toString());
             i++;
-            //method to add the rom into the arraylist of rooms with parameters being "roomType, adultOcc, childOcc, breakfast, cost";
+            //method to add the room into the arraylist of rooms with parameters being "roomType, adultOcc, childOcc, breakfast, cost";
         }
 
     }
@@ -162,4 +169,100 @@ public class reservationUserInput {
                 break;
         }
     }
+
+    public int getTotalPrice(String roomType, String checkInDay, int numberOfNights) {
+        //WEEKS
+        String[] allRooms = new String[]{"Deluxe Double", "Deluxe Twin", "Deluxe Single", "Deluxe Family", "Executive Double", "Executive Twin", "Executive Single", "Classic Double", "Classic Twin", "Classic Single"};
+        int[] costPerWeek = new int[]{560, 560, 510, 600, 530, 530, 485, 490, 500, 410};
+        int costOfRoomPerWeek = 0;
+        for (int i = 0; i < allRooms.length; i++) {
+            String temp = allRooms[i];
+            if (temp.equals(roomType)) {
+                costOfRoomPerWeek = costPerWeek[i];
+            }
+        }
+        int noOfWeeks = numberOfNights / 7;
+        int costForNumberOfWeeks = noOfWeeks * costOfRoomPerWeek;
+
+
+        //DAYS
+        int numberOfDays = numberOfNights % 7;
+        int costForNumberOfDays = 0;
+        int costForOneRoom = 0;
+        String[] daysOfTheWeek = new String[]{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "mon", "tues", "wed", "thurs", "fri", "sat", "sun"};
+        int[] costForDaysOfTheWeek = new int[13];
+        //costs for each RoomType is assigned these values, then put into costForDaysOfTheWeek depending on which room it is
+        int[] costForDaysDDandDT = new int[]{75, 75, 75, 80, 90, 90, 75, 75, 75, 75, 80, 90, 90, 75};
+        int[] costForDaysDS = new int[]{70, 70, 70, 75, 80, 80, 65, 70, 70, 70, 75, 80, 80, 65};
+        int[] costForDaysDF = new int[]{80, 80, 80, 80, 100, 100, 80, 80, 80, 80, 80, 100, 100, 80};
+        int[] costForDaysEDandET = new int[]{70, 70, 70, 70, 80, 85, 85, 70, 70, 70, 70, 80, 85, 85};
+        int[] costForDaysES = new int[]{65, 65, 65, 65, 70, 75, 80, 65, 65, 65, 65, 70, 75, 80};
+        int[] costForDaysCD = new int[]{65, 65, 70, 70, 80, 85, 65, 65, 65, 70, 70, 80, 85, 65};
+        int[] costForDaysCT = new int[]{65, 65, 70, 70, 80, 85, 65, 65, 65, 70, 70, 80, 85, 65};
+        int[] costForDaysCS = new int[]{50, 50, 50, 60, 75, 75, 50, 50, 50, 50, 60, 75, 75, 50};
+        switch (roomType) {
+            case "Deluxe Double":
+            case "Deluxe Twin":
+                for (int i = 0; i < costForDaysOfTheWeek.length; i++) {
+                    costForDaysOfTheWeek[i] = costForDaysDDandDT[i];
+                }
+                break;
+            case "Deluxe Single":
+                for (int i = 0; i < costForDaysOfTheWeek.length; i++) {
+                    costForDaysOfTheWeek[i] = costForDaysDS[i];
+                }
+                break;
+            case "Deluxe Family":
+                for (int i = 0; i < costForDaysOfTheWeek.length; i++) {
+                    costForDaysOfTheWeek[i] = costForDaysDF[i];
+                }
+                break;
+            case "Executive Double":
+            case "Executive Twin":
+                for (int i = 0; i < costForDaysOfTheWeek.length; i++) {
+                    costForDaysOfTheWeek[i] = costForDaysEDandET[i];
+                }
+                break;
+            case "Executive Single":
+                for (int i = 0; i < costForDaysOfTheWeek.length; i++) {
+                    costForDaysOfTheWeek[i] = costForDaysES[i];
+                }
+                break;
+            case "Classic Double":
+                for (int i = 0; i < costForDaysOfTheWeek.length; i++) {
+                    costForDaysOfTheWeek[i] = costForDaysCD[i];
+                }
+                break;
+            case "Classic Twin":
+                for (int i = 0; i < costForDaysOfTheWeek.length; i++) {
+                    costForDaysOfTheWeek[i] = costForDaysCT[i];
+                }
+                break;
+            case "Classic Single":
+                for (int i = 0; i < costForDaysOfTheWeek.length; i++) {
+                    costForDaysOfTheWeek[i] = costForDaysCS[i];
+                }
+                break;
+        }
+
+        //this finds where to start on the daysOfTheWeek array.
+        int b = 0; // b is the starting point
+        for (int a = 0; a < daysOfTheWeek.length; a++) {
+            if (daysOfTheWeek[a] == checkInDay) {
+                b = a;
+            }
+        }
+        int temp = numberOfDays;
+        while (temp > 0) {
+            int costOneDay = +costForDaysOfTheWeek[b];
+            b++;
+            temp--;
+            costForNumberOfDays += costOneDay;
+        }
+        costForOneRoom = costForNumberOfDays + costForNumberOfWeeks;
+
+        return costForOneRoom;
+    }
+
+
 }
