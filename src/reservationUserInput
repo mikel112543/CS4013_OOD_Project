@@ -260,7 +260,7 @@ public class reservationUserInput {
             costForNumberOfDays += costOneDay;
         }
         costForOneRoom = costForNumberOfDays + costForNumberOfWeeks;
-
+        totalCost += costForOneRoom         
         return costForOneRoom;
     }
 
