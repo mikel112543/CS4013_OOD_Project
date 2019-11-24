@@ -25,10 +25,6 @@ public class Room {
         this.breakfast = breakfast;
     }
 
-    public Room(String executive_single, int i, int noOfAdults, int noOfChildren, boolean breakfast, double price) {
-    }
-
-
     public void setNoOfRooms(int noOfRooms) {
         this.noOfRooms = noOfRooms;
     }
@@ -86,12 +82,6 @@ public class Room {
 
     @Override
     public String toString() {
-        return "Room{" +
-                "Room Type: +" + this.roomType + '\'' +
-                "Price: " + this.price +
-                ", breakfast=" + this.breakfast +
-                ", noOfChildren=" + this.noOfChildren +
-                ", noOfAdults=" + this.noOfAdults +
-                '}';
+        return "Rooms: " + roomType;
     }
 }

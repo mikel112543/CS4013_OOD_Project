@@ -2,13 +2,16 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Reservation {
+    private ReservationDate checkIn;
     protected int numberOfNights;
+    private String checkInDay;
     protected double sum = 0;
     protected double totalPrice;
     protected double reservationNumber;
     protected String firstName;
     protected String lastName;
     protected Date checkInDate;
+    protected String typeOfPurchase;
     protected int day, month, year;
     private final static long MILLIS_PER_DAY = 24 * 60 * 60 * 1000;
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -22,6 +25,10 @@ public class Reservation {
         //rooms.add(Room);
     }
 
+    public void addRoom(Room room) {
+        rooms.add(room);
+    }
+
     protected double getDeposit() {
         for (int i = 0; i < rooms.size(); i++) {
             //sum += (rooms.get(i));
@@ -33,34 +40,22 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(String firstName, String lastName, int numberOfNights, int day, int month, int year) {
-        Date reservationDate = new Date();
-        this.day = day;
-        this.month = month;
-        this.year = year;
-        checkInDate = new Date(year, month, day);
+    public Reservation(int reservationNumber, String firstName, String lastName, ArrayList<Room> rooms, int numberOfNights, ReservationDate checkIn, String checkInDay, String typeOfPurchase) {
+        this.reservationNumber = reservationNumber;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.rooms = rooms;
         this.numberOfNights = numberOfNights;
-        for (int i = 0; i < reservationNumbers.size(); i++) {
-            reservationNumber = (double) (Math.random() * 100000);
-            if (reservationNumbers.contains(reservationNumber)) {
-                reservationNumber = (double) (Math.random() * 100000);
-            }
-            reservationNumbers.add(reservationNumber);
-        }
-        for (int i = 0; i < rooms.size(); i++) {
-            //sum += (rooms.getPrice()).get(i);
-        }
-        double numNightstotal = sum * numberOfNights;
-        totalPrice = numberOfNights + this.getDeposit();
+        this.checkIn = checkIn;
+        this.checkInDay = checkInDay;
+        this.typeOfPurchase = typeOfPurchase;
     }
 
-    public void makeReservation(String firstName, String lastName, int numberOfNights, int day, int month, int year) {
-        Reservation reservation = new Reservation(firstName, lastName, numberOfNights, day, month, year);
+    public void addReservation(Reservation reservation) {
         reservations.add(reservation);
-        System.out.println("Congratulations!" + "\n" + "You have booked " + rooms.size() + " rooms for " + numberOfNights + " nights."+"\n"+rooms.toString()+ "\n" + "You're checking in on " + checkInDate + ".");
-        System.out.println("With a deposit of €" + reservation.getDeposit() + "\n" + "Your total payment is €" + totalPrice + "\n" + "Your reservation number is " + reservationNumber);
+        System.out.println("Congratulations!" + "\n" + "You have booked " + rooms.size() + " rooms for " + this.numberOfNights + " nights."+"\n"+rooms.toString()+ "\n" + "You're checking in on " + checkInDay + " " + checkIn.toString() + ".");
+        System.out.println("With a deposit of €" + reservation.getDeposit() + "\n" + "Your total payment is €" + totalPrice + "\n" + "Your reservation number is " + reservationNumber + reservation);
+        rooms.clear();
     }
 
     public void cancelReservation(Reservation reservation) {
@@ -92,5 +87,12 @@ public class Reservation {
 
     public String getName(){
         return firstName+" "+lastName;
+    }
+
+    @Override
+    public String toString() {
+        return "Reservation Number: " + reservationNumber + "\n" +
+                "Name: " + firstName + " " +  lastName + "\n" +
+                "Rooms reserved: " + rooms;
     }
 }

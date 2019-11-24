@@ -2,18 +2,18 @@ import java.util.Arrays;
 
 public class RoomType extends Room {
 
-    private Room[] fiveStar = {new Room("Deluxe Double", 35, getNoOfAdults(), getNoOfChildren(), this.breakfast, getPrice()),
-            new Room( "Deluxe Twin", 25, getNoOfAdults(), getNoOfChildren(), this.breakfast, getPrice()),
-            new Room("Deluxe Single", 10, getNoOfAdults(), getNoOfChildren(), this.breakfast, getPrice()),
-            new Room("Deluxe Family", 10, getNoOfAdults(), getNoOfChildren(), this.breakfast, getPrice())};
+    private Room[] fiveStar = {new Room("Deluxe Double", 35),
+            new Room( "Deluxe Twin", 25),
+            new Room("Deluxe Single", 10),
+            new Room("Deluxe Family", 10)};
 
-    private Room[] fourStar = {new Room("Executive Double", 40, getNoOfAdults(), getNoOfChildren(), this.breakfast, getPrice()),
-            new Room("Executive Twin", 32, getNoOfAdults(), getNoOfChildren(), this.breakfast, getPrice()),
-            new Room("Executive Single", 12, getNoOfAdults(), getNoOfChildren(), this.breakfast, getPrice())};
+    private Room[] fourStar = {new Room("Executive Double", 40),
+            new Room("Executive Twin", 32),
+            new Room("Executive Single", 12)};
 
-    public Room[] threeStar = {new Room("Classic Double", 45, getNoOfAdults(), getNoOfChildren(), this.breakfast, getPrice()),
-            new Room("Classic Twin", 45, getNoOfAdults(), getNoOfChildren(), this.breakfast, getPrice()),
-            new Room("Classic Single", 10, getNoOfAdults(), getNoOfChildren(), this.breakfast, getPrice())};
+    public Room[] threeStar = {new Room("Classic Double", 45),
+            new Room("Classic Twin", 45),
+            new Room("Classic Single", 10)};
 
     public void showFiveStar() {
         for(int i = 0; i < fiveStar.length; i++) {
@@ -31,5 +31,14 @@ public class RoomType extends Room {
         for(int i = 0; i < threeStar.length; i++) {
             System.out.println(Arrays.toString(threeStar));
         }
+    }
+
+    @Override
+    public String toString() {
+        return "RoomType{" +
+                "fiveStar=" + Arrays.toString(fiveStar) +
+                ", fourStar=" + Arrays.toString(fourStar) +
+                ", threeStar=" + Arrays.toString(threeStar) +
+                '}';
     }
 }
