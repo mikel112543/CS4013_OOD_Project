@@ -59,21 +59,23 @@ public class Reservation {
     }
 
 
-    public void cancelReservation(Reservation reservation) throws FileNotFoundException {
+       public void cancelReservation(int resNumber) {
         for (Reservation r : reservations) {
-            reservations.remove(reservation);
-            cancellations.add(reservation);
-            r.saveCancellation();
-            cancelDate.setTime(new Date());
-            //long difference = checkIn.getTimeInMillis() - cancelDate.getTimeInMillis();
-            //boolean moreThanDay = difference > MILLIS_PER_DAY;
-            /**if (moreThanDay) {
+            if (r.getReservationNumber() == resNumber) {
+                reservations.remove(r);
+                cancellations.add(r);
+            }
+        }
+            Date cancelDate = new Date();
+            boolean moreThanDay = Math.abs(checkInDate.getTime() - cancelDate.getTime()) > MILLIS_PER_DAY;
+            if (moreThanDay) {
                 System.out.println("Because this booking is not withing 24 hours of the check in date, you are entitled to a full refund.");
             } else {
                 System.out.println("Refund not applicable because your check in date is in less than 24 hours, our apologies");
-            }**/
+            }
+            System.out.println("Your reservation for " + checkInDate + " has been cancelled.");
         }
-    }
+
 
     public double getReservationNumber() {
         return reservationNumber;
