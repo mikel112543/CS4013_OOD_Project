@@ -1,13 +1,16 @@
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class AdvancePurchase extends Reservation {
 
-    public AdvancePurchase(String firstName, String lastName, int numberOfNights, int day, int month, int year) {
+    public AdvancePurchase(String firstName, String lastName, ArrayList<Room> rooms, int numberOfNights, Date checkIn, String typeOfPurchase) {
         Date reservationDate = new Date();
         this.day = day;
         this.month = month;
         this.year = year;
-        checkInDate = new Date(year, month, day);
+        this.checkIn = checkIn;
+        checkIn = new Date(day, month, year);
         this.firstName = firstName;
         this.lastName = lastName;
         this.numberOfNights = numberOfNights;
@@ -19,27 +22,24 @@ public class AdvancePurchase extends Reservation {
             reservationNumbers.add(reservationNumber);
         }
         for (int i = 0; i < rooms.size(); i++) {
-            sum += (rooms.getPrice()).get(i);
+            //sum += (rooms.getPrice()).get(i);
         }
         double numNightstotal = sum * numberOfNights;
         totalPrice = numberOfNights + this.getDeposit();
     }
 
     @Override
-    public void makeReservation(String firstName, String lastName, int numberOfNights, int day, int month, int year){} {
-        Reservation reservation = new AdvancePurchase(firstName, lastName, numberOfNights, day, month, year);
+    public void makeReservation(String firstName, String lastName,String hotelType, ArrayList<Room> rooms, int numberOfNights, Date checkIn, String typeOfPurchase) throws FileNotFoundException {
+        AdvancePurchase reservation = new AdvancePurchase(firstName, lastName, rooms, numberOfNights, checkIn, typeOfPurchase);
         reservations.add(reservation);
-        double discounted = totalPrice * (19/20);
-        System.out.println("Congratulations!" + "\n" + "You have booked " + rooms.size() + ", rooms for " + numberOfNights + " nights." + "\n" + "You're checking in on " + checkInDate + ".");
-        System.out.println("With a deposit of €" + reservation.getDeposit() + "\n" + "Your total payment would be €" + totalPrice +". But with a 5% discount for purchasing in advance of your check in, your real price is €"+discounted+"\n" + "Your reservation number is " + reservationNumber);
+        double discounted = totalPrice * (19 / 20);
+        reservation.saveReservation();
+        System.out.println("Congratulations!" + "\n" + "You have booked " + rooms.size() + ", rooms for " + numberOfNights + " nights." + "\n" + "You're checking in on " + checkIn + ".");
+        System.out.println("With a deposit of €" + reservation.getDeposit() + "\n" + "Your total payment would be €" + totalPrice + ". But with a 5% discount for purchasing in advance of your check in, your real price is €" + discounted + "\n" + "Your reservation number is " + reservationNumber);
     }
 
     @Override
     public void cancelReservation(Reservation reservation) {
-        for (Reservation r : reservations) {
-            reservations.remove(reservation);
-            cancellations.add(reservation);
-            System.out.println("Your reservation for "+checkInDate+" has been cancelled.");
-        }
+        System.out.println("Cannot cancel, Advance Purchase");
     }
 }
