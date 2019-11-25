@@ -11,28 +11,31 @@ public class Room {
     private String hotelType;
     Calendar checkIn;
     private String dayOfWeek;
-    private String[] daysOfWeek = new String[]{"Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
+    private String[] rooms = new String[]{"Delux Double", "Delux Twin", "Delux Single", "Delux Family", "Exectutive Double", "Executive Single", "Classic Double", "Classic Twin", "Classic Single"};
+    private String[] days = new String[]{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+    private int r;
+    private int d;
+    private int cost;
+    private int[][] prices = new int[][]{
+            {75, 75, 75, 80, 90, 90, 75},
+            {75, 75, 75, 80, 90, 90, 75},
+            {70, 70, 70, 75, 80, 80, 65},
+            {80, 80, 80, 80, 100, 100, 80},
+            {70, 70, 70, 70, 80, 85, 85},
+            {70, 70, 70, 70, 80, 85, 85},
+            {65, 65, 65, 65, 70, 75, 80},
+            {65, 65, 70, 70, 75, 80, 65},
+            {65, 65, 70, 70, 80, 85, 65},
+            {50, 50, 50, 60, 75, 75, 50},
+    };
 
-
-    public Room(String hotelType, String roomType, int noOfAdults, int noOfChildren, int noOfNights, boolean breakfast) {
+    public Room(String roomType, int noOfAdults, int noOfChildren, boolean breakfast) {
         this.hotelType = hotelType;
         this.roomType = roomType;
         this.noOfAdults = noOfAdults;
         this.noOfChildren = noOfChildren;
         this.noOfNights = noOfNights;
         this.breakfast = breakfast;
-    }
-
-    public Room(String hotelType, String roomType, int noOfAdults, int noOfChildren, int noOfNights, boolean breakfast, int price, Calendar checkIn, String dayOfWeek) {
-        this.hotelType = hotelType;
-        this.roomType = roomType;
-        this.noOfAdults = noOfAdults;
-        this.noOfChildren = noOfChildren;
-        this.noOfNights = noOfNights;
-        this.breakfast = breakfast;
-        this.price = price;
-        this.checkIn = checkIn;
-        this.dayOfWeek = dayOfWeek;
     }
 
     public void setNoOfRooms(int noOfRooms) {
@@ -75,23 +78,6 @@ public class Room {
         return breakfast;
     }
 
-    public Room(String roomType, int noOfAdults, int noOfChildren, int noOfNights, boolean breakfast, int price, Calendar checkIn, String dayOfWeek) {
-        this.roomType = roomType;
-        this.noOfAdults = noOfAdults;
-        this.noOfChildren = noOfChildren;
-        this.noOfNights = noOfNights;
-        this.breakfast = breakfast;
-        this.price = price;
-        this.checkIn = checkIn;
-        this.dayOfWeek = dayOfWeek;
-
-    }
-
-    public Room(String roomType, int noOfRooms) {
-        this.roomType = roomType;
-        this.noOfRooms = noOfRooms;
-    }
-
     public void addBreakfast() {
         this.breakfast = true;
     }
@@ -99,77 +85,42 @@ public class Room {
     public String getDayOfWeek(ReservationDate checkIn) {
         int day = (checkIn.getDay() + (26 * (checkIn.getMonth() + 1)) / 10 + (checkIn.getYear() % 100)
                 + (checkIn.getYear() % 100) / 4 + (checkIn.getYear() / 100) / 4 + 5 * (checkIn.getYear() / 100)) % 7;
-        for (int i = 0; i < daysOfWeek.length; i++) {
+        for (int i = 0; i < days.length; i++) {
             if (day == i) {
-                dayOfWeek = daysOfWeek[i];
+                dayOfWeek = days[i];
                 return dayOfWeek;
             }
         }
         return "Not a date";
     }
 
-
-    public int getPriceOfRoom(String roomType) {
-        int[] deluxeDoubleDeluxeTwin = new int[]{90, 75, 75, 75, 75, 80, 90};
-        int[] deluxeSingle = new int[]{80, 65, 70, 70, 70, 75, 80};
-        int[] deluxeFamily = new int[]{100, 80, 80, 80, 80, 80, 100};
-        int[] execDoubleExecTwin = new int[]{85, 85, 70, 70, 70, 70, 80};
-        int[] execSingle = new int[]{75, 80, 65, 65, 65, 65, 70};
-        int[] classicDouble = new int[]{80, 65, 65, 65, 70, 70, 75};
-        int[] classicTwin = new int[]{85, 65, 65, 65, 70, 70, 80};
-        int[] classicSingle = new int[]{75, 50, 50, 50, 50, 60, 75};
-        int[] costForDaysOfTheWeek = new int[7];
-
-        switch (roomType) {
-            case "Deluxe Double":
-            case "Deluxe Twin":
-                for (int i = 0; i < costForDaysOfTheWeek.length; i++) {
-                    costForDaysOfTheWeek[i] = deluxeDoubleDeluxeTwin[i];
-                }
-                break;
-            case "Deluxe Single":
-                for (int i = 0; i < costForDaysOfTheWeek.length; i++) {
-                    costForDaysOfTheWeek[i] = deluxeSingle[i];
-                }
-                break;
-            case "Deluxe Family":
-                for (int i = 0; i < costForDaysOfTheWeek.length; i++) {
-                    costForDaysOfTheWeek[i] = deluxeFamily[i];
-                }
-                break;
-            case "Executive Double":
-            case "Executive Twin":
-                for (int i = 0; i < costForDaysOfTheWeek.length; i++) {
-                    costForDaysOfTheWeek[i] = execDoubleExecTwin[i];
-                }
-                break;
-            case "Executive Single":
-                for (int i = 0; i < costForDaysOfTheWeek.length; i++) {
-                    costForDaysOfTheWeek[i] = execSingle[i];
-                }
-                break;
-            case "Classic Double":
-                for (int i = 0; i < costForDaysOfTheWeek.length; i++) {
-                    costForDaysOfTheWeek[i] = classicDouble[i];
-                }
-                break;
-            case "Classic Twin":
-                for (int i = 0; i < costForDaysOfTheWeek.length; i++) {
-                    costForDaysOfTheWeek[i] = classicTwin[i];
-                }
-                break;
-            case "Classic Single":
-                for (int i = 0; i < costForDaysOfTheWeek.length; i++) {
-                    costForDaysOfTheWeek[i] = classicSingle[i];
-                }
-                break;
-        }
-        for (int i = 0; i < daysOfWeek.length; i++) {
-            if (daysOfWeek[i].equals(dayOfWeek)) {
-                price = costForDaysOfTheWeek[i];
+    public int getRoomIndex(String room) {
+        for (int i = 0; i < rooms.length; i++) {
+            if (rooms[i].equals(room)) {
+                r = i;
             }
         }
-        return price;
+        return r;
+    }
+
+    public int getDayIndex(String day) {
+        for (int i = 0; i < days.length; i++) {
+            if (days[i].equals(day)) {
+                d = i;
+            }
+        }
+        return d;
+    }
+
+    public int getCostOneDay(String room, String day) {
+        r = this.getRoomIndex(room);
+        d = this.getDayIndex(day);
+        for (int i = 0; i < prices.length; i++) {
+            for (int j = 0; j < prices[i].length; j++) {
+                cost = prices[r][d];
+            }
+        }
+        return cost;
     }
 
     @Override
@@ -179,6 +130,6 @@ public class Room {
                 "Child Occupancy: " + noOfChildren + "\n" +
                 "Number of Nights: " + noOfNights + "\n" +
                 "Breakfast: " + breakfast + "\n" +
-                "Total price of room: " + getPriceOfRoom(roomType);
+                "Total price of room: " + getCostOneDay(roomType,dayOfWeek);
     }
 }
