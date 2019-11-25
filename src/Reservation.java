@@ -15,8 +15,8 @@ public class Reservation {
     protected double reservationNumber;
     protected String firstName;
     protected String lastName;
-    protected Calendar checkIn;
-    protected Calendar checkOut;
+    protected Date checkIn;
+    protected Date checkOut;
     protected Calendar cancelDate;
     protected String typeOfPurchase;
     protected String hotelType;
@@ -41,24 +41,16 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(String firstName, String lastName, String hotelType, ArrayList<Room> rooms, int numberOfNights, Calendar checkIn, String typeOfPurchase) {
+    public Reservation(String firstName, String lastName, String hotelType, ArrayList<Room> rooms, int numberOfNights, Date checkIn, String typeOfPurchase) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.hotelType = hotelType;
         this.rooms = rooms;
         this.numberOfNights = numberOfNights;
-        checkOut = checkIn;
-        checkOut.add(Calendar.DATE, numberOfNights);
         this.typeOfPurchase = typeOfPurchase;
-        for (int i = 0; i < reservationNumbers.size(); i++) {
-            this.reservationNumber = Math.random() * 1000000;
-            if (reservationNumbers.contains(reservationNumber)) {
-                this.reservationNumber = Math.random() * 1000000;
-            }
-        }
     }
 
-    public void makeReservation(String firstName, String lastName, String hotelType, ArrayList<Room> rooms, int numberOfNights, Calendar checkIn, String typeOfPurchase) throws FileNotFoundException {
+    public void makeReservation(String firstName, String lastName, String hotelType, ArrayList<Room> rooms, int numberOfNights, Date checkIn, String typeOfPurchase) throws FileNotFoundException {
         Reservation reservation = new Reservation(firstName, lastName, hotelType, rooms, numberOfNights, checkIn, typeOfPurchase);
         reservations.add(reservation);
         reservation.saveReservation();
@@ -73,14 +65,13 @@ public class Reservation {
             cancellations.add(reservation);
             r.saveCancellation();
             cancelDate.setTime(new Date());
-            long difference = checkIn.getTimeInMillis() - cancelDate.getTimeInMillis();
-            boolean moreThanDay = difference > MILLIS_PER_DAY;
-            if (moreThanDay) {
+            //long difference = checkIn.getTimeInMillis() - cancelDate.getTimeInMillis();
+            //boolean moreThanDay = difference > MILLIS_PER_DAY;
+            /**if (moreThanDay) {
                 System.out.println("Because this booking is not withing 24 hours of the check in date, you are entitled to a full refund.");
             } else {
                 System.out.println("Refund not applicable because your check in date is in less than 24 hours, our apologies");
-            }
-            System.out.println("Your reservation for " + checkIn + " has been cancelled.");
+            }**/
         }
     }
 
@@ -98,31 +89,34 @@ public class Reservation {
     }
 
     public void saveReservation() throws FileNotFoundException {
-        FileOutputStream fos = new FileOutputStream("Reservations.csv", true);
-        PrintWriter pw = new PrintWriter(fos);
+                FileOutputStream fos = new FileOutputStream("Reservations.csv", true);
+                PrintWriter pw = new PrintWriter(fos);
 
-        pw.println(this.getName() + "," + this.getReservationNumber() + ","+getHotelType()+"," + rooms.size() + "," + this.getNumberOfNights() + "," + this.getCheckInDate() + "," + getCheckOut() + "," + "S" + "," + this.getDeposit() + "," + totalPrice);
-        for (Room r : rooms) {
-            pw.println(",,,,,,,,,," + r.getRoomType() + "," + r.getNoOfAdults() + "," + r.getNoOfChildren() + "," + r.isBreakfast());
+                pw.println(this.getName() + "," + this.getReservationNumber() + ","+getHotelType()+"," + rooms.size() + "," + this.getNumberOfNights() + "," + this.getCheckInDate() + "," + getCheckOut() + "," + "S" + "," + this.getDeposit() + "," + totalPrice);
+                for(int i = 0; i < rooms.size(); i++ ) {
+                    while (i < rooms.size()) {
+                        pw.println(",,,,,,,,,," + rooms.get(i).getRoomType() + "," + rooms.get(i).getNoOfAdults() + "," + rooms.get(i).getNoOfChildren() + "," + rooms.get(i).isBreakfast());
+                        i++;
+                    }
+                }
+                pw.close();
+            }
+
+            public void saveCancellation() throws FileNotFoundException {
+                FileOutputStream fos = new FileOutputStream("Cancellations.csv", true);
+                PrintWriter pw = new PrintWriter(fos);
+
+                //pw.println(this.getName() + "," + this.getReservationNumber()+","+this.hotelType+"," + rooms.size() + "," + this.getNumberOfNights() + "," + this.getCheckInDate() + "," + getCheckOut() + "," + this.getDeposit() + "," + totalPrice);
+                for (Room r : rooms) {
+                    pw.println(",,,,,,,,," + r.getRoomType() + "," + r.getNoOfAdults() + "," + r.getNoOfChildren() + "," + r.isBreakfast());
         }
-        pw.close();
     }
 
-    public void saveCancellation() throws FileNotFoundException {
-        FileOutputStream fos = new FileOutputStream("Cancellations.csv", true);
-        PrintWriter pw = new PrintWriter(fos);
-
-        pw.println(this.getName() + "," + this.getReservationNumber()+","+this.hotelType+"," + rooms.size() + "," + this.getNumberOfNights() + "," + this.getCheckInDate() + "," + getCheckOut() + "," + this.getDeposit() + "," + totalPrice);
-        for (Room r : rooms) {
-            pw.println(",,,,,,,,," + r.getRoomType() + "," + r.getNoOfAdults() + "," + r.getNoOfChildren() + "," + r.isBreakfast());
-        }
-    }
-
-    public Calendar getCheckInDate() {
+    public Date getCheckInDate() {
         return checkIn;
     }
 
-    public Calendar getCheckOut() {
+    public Date getCheckOut() {
         return checkOut;
     }
 
