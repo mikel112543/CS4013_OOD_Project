@@ -27,7 +27,6 @@ public class AdvancePurchase extends Reservation {
         totalPrice = numberOfNights + this.getDeposit();
     */
 
-
     @Override
     public void addReservation(Reservation reservation) {
         super.addReservation(reservation);

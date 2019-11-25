@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Customer {
@@ -30,7 +31,7 @@ public class Customer {
 
     public void getUserInput(){
 
-        Reservation temp = new Reservation();
+        ArrayList<Room> rooms = new ArrayList<>();
 
 
         Scanner input = new Scanner(System.in);
@@ -97,7 +98,6 @@ public class Customer {
             String[] fiveStarHotel = new String []{"Deluxe Double" , "Deluxe Twin" , "Deluxe Single" , "Deluxe Family"};
             String[] fourStarHotel = new String[]{"Executive Double" , "Executive Twin" , "Executive Single"};
             String[] threeStarHotel = new String[]{"Classic Double" , "Classic Twin" , "Classic Single"};
-            RoomType roomType1 = new RoomType();
 
             int i = 1;
             int typeOfRoom;
@@ -158,11 +158,11 @@ public class Customer {
                 //number of nights / 7 = number of weeks stayed.... numberOfWeeks x costOfOneWeek = costForAllWeeks.
                 //number of nights % 7 = leftover days. ifCheckInDay is monday, go monday + leftoverDays.. eg if Monday and 6 leftOver is 2, monday + tuesday.
                 Room room = new Room(roomType, adultOcc, childOcc, numberOfNights, breakfast, priceOfRoom, checkIn, checkInDay);
-                temp.addRoom(room);
+                rooms.add(room);
                 i++;
                 //method to add the rom into the arraylist of rooms with parameters being "roomType, adultOcc, childOcc, breakfast, cost";
             }
-            System.out.println("Would you like to reserve this booking? (Y / N) ");
+            System.out.println("Would you like to reserve this booking? your mother(Y / N) ");
             String reserve = input.next();
             if (reserve.equalsIgnoreCase("y")) {
                 System.out.println("What type of Reservation method will you be using? " + "\n S)Standard Booking" + "\n AP)Advanced Purchase");
@@ -170,7 +170,7 @@ public class Customer {
                 if(resType.equalsIgnoreCase("s")) {
                     typeOfPurchase = "Standard Booking";
                 }
-                Reservation reservation = new Reservation(resNumber, firstNameOnRes, lastNameOnRes, temp.rooms, numberOfNights, checkIn, checkInDay, typeOfPurchase);
+                Reservation reservation = new Reservation(resNumber, firstNameOnRes, lastNameOnRes, rooms, numberOfNights, checkIn, checkInDay, typeOfPurchase);
                 reservation.addReservation(reservation);
             }else{
                 getUserInput();

@@ -25,9 +25,7 @@ public class Reservation {
         //rooms.add(Room);
     }
 
-    public void addRoom(Room room) {
-        rooms.add(room);
-    }
+
 
     protected double getDeposit() {
         for (int i = 0; i < rooms.size(); i++) {
@@ -40,12 +38,9 @@ public class Reservation {
     public Reservation() {
     }
 
-    public void makeResNumber() {
-        reservationNumber = (int) (Math.random() * 1000000);
-    }
 
     public Reservation(int reservationNumber, String firstName, String lastName, ArrayList<Room> rooms, int numberOfNights, ReservationDate checkIn, String checkInDay, String typeOfPurchase) {
-        this.reservationNumber = reservationNumber;
+        this.reservationNumber = (int) (Math.random() * 1000000);
         this.firstName = firstName;
         this.lastName = lastName;
         this.rooms = rooms;
@@ -56,7 +51,6 @@ public class Reservation {
     }
 
     public void addReservation(Reservation reservation) {
-        makeResNumber();
         reservations.add(reservation);
         System.out.println("Congratulations! Thank you for making a booking with L4 Hotels.");
         System.out.println("Here are your reservation details: ");
@@ -106,9 +100,9 @@ public class Reservation {
     public String toString() {
         return "Reservation Number: " + reservationNumber + "\n" +
                 "Name: " + firstName + " " + lastName + "\n" +
-                "Number of nights: " + this.numberOfNights + "\n" +
+                "Number of nights: " + numberOfNights + "\n" +
                 "Check-In Date " + checkInDay + " " + checkIn + "\n" +
-                "Reservation type: " + this.typeOfPurchase + "\n" +
+                "Reservation type: " + typeOfPurchase + "\n" +
                 "Your room information is: " + "\n" + rooms;
 
     }
