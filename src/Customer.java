@@ -21,13 +21,12 @@ public class Customer {
     protected int adultOcc;
     protected int childOcc;
     protected boolean breakfast;
+    protected  int priceOfRoom;
 
     protected int totalCost;        //8
     protected int deposit;          //9
 
-    public void makeResNumber() {
-        resNumber = (int) (Math.random() * 1000000);
-    }
+
 
     public void getUserInput(){
 
@@ -158,7 +157,7 @@ public class Customer {
                 //checkInDay (eg mon), number of nights (eg 20), then get Cost of each room.
                 //number of nights / 7 = number of weeks stayed.... numberOfWeeks x costOfOneWeek = costForAllWeeks.
                 //number of nights % 7 = leftover days. ifCheckInDay is monday, go monday + leftoverDays.. eg if Monday and 6 leftOver is 2, monday + tuesday.
-                Room room = new Room(roomType, adultOcc, childOcc, breakfast);
+                Room room = new Room(roomType, adultOcc, childOcc, numberOfNights, breakfast, priceOfRoom, checkIn);
                 temp.addRoom(room);
                 i++;
                 //method to add the rom into the arraylist of rooms with parameters being "roomType, adultOcc, childOcc, breakfast, cost";
@@ -166,10 +165,10 @@ public class Customer {
             System.out.println("Would you like to reserve this booking? (Y / N) ");
             String reserve = input.next();
             if (reserve.equalsIgnoreCase("y")) {
-                makeResNumber();
                 System.out.println("What type of Reservation method will you be using? " + "\n S)Standard Booking" + "\n AP)Advanced Purchase");
                 resType = input.next().toUpperCase();
                 if(resType.equalsIgnoreCase("s")) {
+                    typeOfPurchase = "Standard Booking";
                 }
                 Reservation reservation = new Reservation(resNumber, firstNameOnRes, lastNameOnRes, temp.rooms, numberOfNights, checkIn, checkInDay, typeOfPurchase);
                 reservation.addReservation(reservation);
@@ -207,4 +206,5 @@ public class Customer {
                 break;
         }
     }
+
 }

@@ -152,7 +152,6 @@ public class reservationUserInput{
             }else {
                 breakfast = false;
             }
-            Room room = new Room("double", adultOcc, childOcc, breakfast);
 
 
 

@@ -2,9 +2,9 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Reservation {
-    private ReservationDate checkIn;
+    protected ReservationDate checkIn;
     protected int numberOfNights;
-    private String checkInDay;
+    protected String checkInDay;
     protected double sum = 0;
     protected double totalPrice;
     protected double reservationNumber;
@@ -40,6 +40,10 @@ public class Reservation {
     public Reservation() {
     }
 
+    public void makeResNumber() {
+        reservationNumber = (int) (Math.random() * 1000000);
+    }
+
     public Reservation(int reservationNumber, String firstName, String lastName, ArrayList<Room> rooms, int numberOfNights, ReservationDate checkIn, String checkInDay, String typeOfPurchase) {
         this.reservationNumber = reservationNumber;
         this.firstName = firstName;
@@ -52,9 +56,11 @@ public class Reservation {
     }
 
     public void addReservation(Reservation reservation) {
+        makeResNumber();
         reservations.add(reservation);
-        System.out.println("Congratulations!" + "\n" + "You have booked " + rooms.size() + " rooms for " + this.numberOfNights + " nights."+"\n"+rooms.toString()+ "\n" + "You're checking in on " + checkInDay + " " + checkIn.toString() + ".");
-        System.out.println("With a deposit of €" + reservation.getDeposit() + "\n" + "Your total payment is €" + totalPrice + "\n" + "Your reservation number is " + reservationNumber + reservation);
+        System.out.println("Congratulations! Thank you for making a booking with L4 Hotels.");
+        System.out.println("Here are your reservation details: ");
+        System.out.println(reservation);
         rooms.clear();
     }
 
@@ -69,8 +75,15 @@ public class Reservation {
             } else {
                 System.out.println("Refund not applicable because your check in date is in less than 24 hours, our apologies");
             }
-            System.out.println("Your reservation for "+checkInDate+" has been cancelled.");
+            System.out.println("Your reservation for " + checkInDate + " has been cancelled.");
         }
+    }
+
+    public String roomInfo() {
+        for (int i = 0; i < rooms.size(); i++) {
+            System.out.println(rooms.toString());
+        }
+        return rooms.toString();
     }
 
     public double getReservationNumber() {
@@ -85,14 +98,18 @@ public class Reservation {
         return checkInDate;
     }
 
-    public String getName(){
-        return firstName+" "+lastName;
+    public String getName() {
+        return firstName + " " + lastName;
     }
 
     @Override
     public String toString() {
         return "Reservation Number: " + reservationNumber + "\n" +
-                "Name: " + firstName + " " +  lastName + "\n" +
-                "Rooms reserved: " + rooms;
+                "Name: " + firstName + " " + lastName + "\n" +
+                "Number of nights: " + this.numberOfNights + "\n" +
+                "Check-In Date " + checkInDay + " " + checkIn + "\n" +
+                "Reservation type: " + this.typeOfPurchase + "\n" +
+                "Your room information is: " + "\n" + rooms;
+
     }
 }
