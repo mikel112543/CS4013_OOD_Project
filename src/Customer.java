@@ -183,7 +183,7 @@ public class Customer {
                 if(resType.equalsIgnoreCase("s")) {
                     typeOfPurchase = "Standard Booking";
                 }
-                reservation.makeReservation(firstNameOnRes,lastNameOnRes,rooms,numberOfNights,checkIn,typeOfPurchase);
+                reservation.makeReservation(firstNameOnRes,lastNameOnRes,hotelType,rooms,numberOfNights,checkIn,typeOfPurchase);
                 getUserInput();
             }else{
                 getUserInput();
