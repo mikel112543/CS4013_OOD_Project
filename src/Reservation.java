@@ -96,6 +96,12 @@ public class Reservation {
         return firstName + " " + lastName;
     }
 
+    public void showReservations() {
+        for(Reservation r : reservations) {
+            System.out.println(r);
+        }
+    }
+
     @Override
     public String toString() {
         return "Reservation Number: " + reservationNumber + "\n" +

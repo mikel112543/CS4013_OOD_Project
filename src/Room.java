@@ -11,17 +11,31 @@ public class Room {
     private int noOfChildren = 0;
     private int noOfAdults = 1;
     private int noOfNights;
+    private String hotelType;
     ReservationDate checkIn;
     private String dayOfWeek;
     private String[] daysOfWeek = new String[]{"Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
 
 
-    public Room(String roomType, int noOfAdults, int noOfChildren, int noOfNights, boolean breakfast) {
+    public Room(String hotelType, String roomType, int noOfAdults, int noOfChildren, int noOfNights, boolean breakfast) {
+        this.hotelType = hotelType;
         this.roomType = roomType;
         this.noOfAdults = noOfAdults;
         this.noOfChildren = noOfChildren;
         this.noOfNights = noOfNights;
         this.breakfast = breakfast;
+    }
+
+    public Room(String hotelType, String roomType, int noOfAdults, int noOfChildren, int noOfNights, boolean breakfast, int price, ReservationDate checkIn, String dayOfWeek) {
+        this.hotelType = hotelType;
+        this.roomType = roomType;
+        this.noOfAdults = noOfAdults;
+        this.noOfChildren = noOfChildren;
+        this.noOfNights = noOfNights;
+        this.breakfast = breakfast;
+        this.price = price;
+        this.checkIn = checkIn;
+        this.dayOfWeek = dayOfWeek;
     }
 
     public void setNoOfRooms(int noOfRooms) {
@@ -159,8 +173,6 @@ public class Room {
         }
         return price;
     }
-
-
 
     @Override
     public String toString() {

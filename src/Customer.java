@@ -23,6 +23,7 @@ public class Customer {
     protected int childOcc;
     protected boolean breakfast;
     protected  int priceOfRoom;
+    private String hotelType;
 
     protected int totalCost;        //8
     protected int deposit;          //9
@@ -31,11 +32,12 @@ public class Customer {
 
     public void getUserInput(){
 
+        Reservation r = new Reservation();
         ArrayList<Room> rooms = new ArrayList<>();
 
 
         Scanner input = new Scanner(System.in);
-        System.out.println("M)ake Reservation   Q)uit");
+        System.out.println("M)ake Reservation   Q)uit   S)how Reservations");
         String choice = input.nextLine().toUpperCase();
         if (choice.equals("M")) {
 
@@ -93,7 +95,13 @@ public class Customer {
 
             System.out.println("Select Star Hotel (5, 4, 3)");
             hotel = input.nextInt();
-
+            if(hotel == 5) {
+                hotelType = "Five Star";
+            }else if(hotel == 4) {
+                hotelType = "Four Star";
+            }else if(hotel == 3) {
+                hotelType = "Three Star";
+            }
 
             String[] fiveStarHotel = new String []{"Deluxe Double" , "Deluxe Twin" , "Deluxe Single" , "Deluxe Family"};
             String[] fourStarHotel = new String[]{"Executive Double" , "Executive Twin" , "Executive Single"};
@@ -157,7 +165,7 @@ public class Customer {
                 //checkInDay (eg mon), number of nights (eg 20), then get Cost of each room.
                 //number of nights / 7 = number of weeks stayed.... numberOfWeeks x costOfOneWeek = costForAllWeeks.
                 //number of nights % 7 = leftover days. ifCheckInDay is monday, go monday + leftoverDays.. eg if Monday and 6 leftOver is 2, monday + tuesday.
-                Room room = new Room(roomType, adultOcc, childOcc, numberOfNights, breakfast, priceOfRoom, checkIn, checkInDay);
+                Room room = new Room(hotelType, roomType, adultOcc, childOcc, numberOfNights, breakfast, priceOfRoom, checkIn, checkInDay);
                 rooms.add(room);
                 i++;
                 //method to add the rom into the arraylist of rooms with parameters being "roomType, adultOcc, childOcc, breakfast, cost";
@@ -172,11 +180,16 @@ public class Customer {
                 }
                 Reservation reservation = new Reservation(resNumber, firstNameOnRes, lastNameOnRes, rooms, numberOfNights, checkIn, checkInDay, typeOfPurchase);
                 reservation.addReservation(reservation);
+                getUserInput();
             }else{
                 getUserInput();
             }
 
-        }else {
+        }else if(choice.equals("S")) {
+            r.showReservations();
+            getUserInput();
+        }else{
+
             System.out.println("Thank you for using L4 Hotels");
         }
 
