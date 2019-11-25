@@ -157,7 +157,7 @@ public class Customer {
                 //checkInDay (eg mon), number of nights (eg 20), then get Cost of each room.
                 //number of nights / 7 = number of weeks stayed.... numberOfWeeks x costOfOneWeek = costForAllWeeks.
                 //number of nights % 7 = leftover days. ifCheckInDay is monday, go monday + leftoverDays.. eg if Monday and 6 leftOver is 2, monday + tuesday.
-                Room room = new Room(roomType, adultOcc, childOcc, numberOfNights, breakfast, priceOfRoom, checkIn);
+                Room room = new Room(roomType, adultOcc, childOcc, numberOfNights, breakfast, priceOfRoom, checkIn, checkInDay);
                 temp.addRoom(room);
                 i++;
                 //method to add the rom into the arraylist of rooms with parameters being "roomType, adultOcc, childOcc, breakfast, cost";

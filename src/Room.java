@@ -12,7 +12,7 @@ public class Room {
     private int noOfAdults = 1;
     private int noOfNights;
     ReservationDate checkIn;
-    private String day;
+    private String dayOfWeek;
     private String[] daysOfWeek = new String[] {"Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
 
 
@@ -73,7 +73,7 @@ public class Room {
         return breakfast;
     }
 
-    public Room(String roomType, int noOfAdults, int noOfChildren, int noOfNights, boolean breakfast, int price, ReservationDate checkIn) {
+    public Room(String roomType, int noOfAdults, int noOfChildren, int noOfNights, boolean breakfast, int price, ReservationDate checkIn, String dayOfWeek) {
         this.roomType = roomType;
         this.noOfAdults = noOfAdults;
         this.noOfChildren = noOfChildren;
@@ -81,6 +81,7 @@ public class Room {
         this.breakfast =  breakfast;
         this.price = price;
         this.checkIn = checkIn;
+        this.dayOfWeek = dayOfWeek;
 
     }
 
@@ -94,12 +95,12 @@ public class Room {
     }
 
     public String getDayOfWeek(ReservationDate checkIn) {
-        int dayOfWeek = (checkIn.getDay() + (26 * (checkIn.getMonth() + 1)) / 10 + (checkIn.getYear() % 100)
+        int day = (checkIn.getDay() + (26 * (checkIn.getMonth() + 1)) / 10 + (checkIn.getYear() % 100)
                 + (checkIn.getYear() % 100) / 4 + (checkIn.getYear() / 100) / 4 + 5 * (checkIn.getYear() / 100)) % 7;
         for(int i = 0; i < daysOfWeek.length; i++) {
-            if(dayOfWeek == i) {
-                day = daysOfWeek[i];
-                return day;
+            if(day == i) {
+                dayOfWeek = daysOfWeek[i];
+                return dayOfWeek;
             }
         }
         return "Not a date";
@@ -119,28 +120,28 @@ public class Room {
                                             "Classic Double" , "Classic Twin" , "Classic Single"};
         for(int i = 0; i < daysOfWeek.length; i++) {
             for(int j = 0; j < roomTypes.length; j++) {
-                if(daysOfWeek[i].equals(day) && roomTypes[0].equals(roomType) || roomTypes[1].equals(roomType)) {
+                if(daysOfWeek[i].equals(getDayOfWeek(checkIn)) && roomTypes[0].equals(roomType) || roomTypes[1].equals(roomType)) {
                     price = deluxeDoubleDeluxeTwin[i];
                     return price;
-                }else if(daysOfWeek[i].equals(day) && roomTypes[2].equals(roomType)) {
+                }else if(daysOfWeek[i].equals(dayOfWeek) && roomTypes[2].equals(roomType)) {
                     price = deluxeSingle[i];
                     return price;
-                }else if(daysOfWeek[i].equals(day) && roomTypes[3].equals(roomType)) {
+                }else if(daysOfWeek[i].equals(dayOfWeek) && roomTypes[3].equals(roomType)) {
                     price = deluxeFamily[i];
                     return price;
-                }else if(daysOfWeek[i].equals(day) && roomTypes[4].equals(roomType) || roomTypes[5].equals(roomType)) {
+                }else if(daysOfWeek[i].equals(dayOfWeek) && roomTypes[4].equals(roomType) || roomTypes[5].equals(roomType)) {
                     price = execDoubleExecTwin[i];
                     return price;
-                }else if(daysOfWeek[i].equals(day) && roomTypes[6].equals(roomType)) {
+                }else if(daysOfWeek[i].equals(dayOfWeek) && roomTypes[6].equals(roomType)) {
                     price = execSingle[i];
                     return price;
-                }else if(daysOfWeek[i].equals(day) && roomTypes[7].equals(roomType)) {
+                }else if(daysOfWeek[i].equals(dayOfWeek) && roomTypes[7].equals(roomType)) {
                     price = classicDouble[i];
                     return price;
-                }else if(daysOfWeek[i].equals(day) && roomTypes[8].equals(roomType)) {
+                }else if(daysOfWeek[i].equals(dayOfWeek) && roomTypes[8].equals(roomType)) {
                     price = classicTwin[i];
                     return price;
-                }else if(daysOfWeek[i].equals(day) && roomTypes[9].equals(roomType)) {
+                }else if(daysOfWeek[i].equals(dayOfWeek) && roomTypes[9].equals(roomType)) {
                     price = classicSingle[i];
                     return price;
                 }
