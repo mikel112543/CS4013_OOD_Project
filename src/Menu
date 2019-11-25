@@ -1,0 +1,93 @@
+import java.util.Scanner;
+public class Menu {
+
+    public void Run(Reservation reservation){
+        
+        Customer customer = new Customer();
+        DeskPersonnel desk = new DeskPersonnel();
+        Reservation r = new Reservation();
+
+        Scanner input = new Scanner(System.in);
+        String[] people = new String[]{"Customer", "Hotel Desk Personnel", "Supervisor"};
+        System.out.println("Welcome to L4 Hotels! Please enter who you are.");
+        for (int i = 0; i < people.length; i++) {
+            System.out.println(i + 1 + ")" + people[i]);
+        }
+        int person = input.nextInt();
+        switch (person) {
+            default:
+                /* CUSTOMER STUFF */
+                System.out.println("M)ake Reservation   C)ancellation    Q)uit");
+                String choice = input.next().toUpperCase();
+                switch (choice){
+                    case "M":
+                        customer.getUserInput();
+                        break;
+                    case "C":
+                        System.out.println("What is your reservation Number");
+                        int inputResNumber = input.nextInt();
+                        r.cancelReservation(inputResNumber);
+                        break;
+                    default:
+                        System.out.println("Thank you for using L4 Hotels!");
+                }
+
+                break;
+            case 2:
+                boolean password = false;
+                while (!password) {
+                    String hdpPassword = "personnel";
+                    System.out.println("Enter password for Hotel Desk Personnel");
+                    String inputPassword = input.next();
+
+                    if (hdpPassword.equals(inputPassword)) {
+                        password = true;
+                        System.out.println("You have entered the correct password.");
+                        /* DESK PERSONNEL STUFF */
+                        System.out.println("M)ake Reservation    C)ancel Reservation    A)CheckIn      B)CheckOut     Q)uit");
+                        String choiceB = input.next().toUpperCase();
+                        switch(choiceB){
+                            case "M":
+                              desk.getUserInput();
+                                break;
+                            case "C":
+                                System.out.println("What is your reservation Number");
+                                int inputResNumber = input.nextInt();
+                                r.cancelReservation(inputResNumber);
+                                break;
+                            case "A":
+                                Date checkIn = 
+                                break;
+                            case "B":
+                                //checkOutStuff
+                                break;
+                            default:
+                                System.out.println("Thank you for using L4 Hotels");
+                                break;
+                        }
+                    } else {
+                        System.out.println("You have entered in the wrong password.");
+                        password = false;
+                    }
+                }
+
+                break;
+            case 3:
+                boolean adminPass = false;
+                while (!adminPass) {
+                    String supervisorPassword = "admin";
+                    System.out.println("Enter password for the Supervisor");
+                    String inputPassword = input.next();
+
+                    if (supervisorPassword.equals(inputPassword)) {
+                        adminPass = true;
+                        System.out.println("You have entered the correct password");
+                        /* SUPERVISOR STUFF */
+                    } else {
+                        System.out.println("You have entered in the wrong password.");
+                        adminPass = false;
+                    }
+                }
+        }
+    }
+}
