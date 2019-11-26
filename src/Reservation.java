@@ -69,7 +69,8 @@ public class Reservation {
             r.saveCancellation();
             cancelDate = LocalDate.now();
             Period period = Period.between(cancelDate,checkIn);
-            boolean moreThanDay = difference > MILLIS_PER_DAY;
+            int diff = period.getDays();
+            boolean moreThanDay = diff >= 1;
             if (moreThanDay) {
                 System.out.println("Because this booking is not withing 24 hours of the check in date, you are entitled to a full refund.");
             } else {
@@ -79,7 +80,7 @@ public class Reservation {
     }
 
     public double getTotalPrice(Room rooms) {
-
+        
     }
 
     public double getReservationNumber() {
