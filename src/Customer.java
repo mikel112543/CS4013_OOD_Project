@@ -8,9 +8,9 @@ import java.util.Date;
 import java.util.Scanner;
 
 public class Customer {
-    protected int resNumber;        //1
-    protected String firstNameOnRes;//2
-    protected String lastNameOnRes;
+    private int resNumber;        //1
+    private String firstNameOnRes;//2
+    private String lastNameOnRes;
     protected String resType;       //3
 
     protected int year;             //4
@@ -29,11 +29,6 @@ public class Customer {
     protected int priceOfRoom;
     private String hotelType;
     private Reservation reservation;
-    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-
-
-    protected int totalCost;        //8
-    protected int deposit;          //9
 
     public void getUserInput() throws FileNotFoundException {
 
@@ -74,7 +69,7 @@ public class Customer {
             }
             int dayOfWeek = (day + (26 * (month + 1)) / 10 + (year % 100)
                     + (year % 100) / 4 + (year / 100) / 4 + 5 * (year / 100)) % 7;
-            LocalDate checkIn =  LocalDate.of(year, month, day);
+            LocalDate checkIn = LocalDate.of(year, month, day);
 
 
             switch (dayOfWeek) {
@@ -186,10 +181,14 @@ public class Customer {
                 System.out.println("What type of Reservation method will you be using? " + "\n S)Standard Booking" + "\n AP)Advanced Purchase");
                 resType = input.next().toUpperCase();
                 if (resType.equalsIgnoreCase("s")) {
-                    typeOfPurchase = "Standard Booking";
+
+                    Reservation reservation = new Reservation(resNumber, firstNameOnRes, lastNameOnRes, hotelType, rooms, numberOfNights, checkIn, "Standard Booking");
+                    reservation.makeReservation(reservation);
+                }else if(resType.equalsIgnoreCase("AP")) {
+                    typeOfPurchase = "Advance Purchase";
+                    AdvancePurchase reservation = new AdvancePurchase(resNumber, firstNameOnRes, lastNameOnRes, hotelType, rooms, numberOfNights, checkIn, "Advance Booking");
+                    reservation.makeReservation(reservation);
                 }
-                Reservation reservation = new Reservation(resNumber, firstNameOnRes, lastNameOnRes, hotelType, rooms, numberOfNights, checkIn, typeOfPurchase);
-                reservation.makeReservation(reservation);
                 getUserInput();
             } else {
                 getUserInput();

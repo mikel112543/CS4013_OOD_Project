@@ -1,26 +1,36 @@
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.*;
 
 public class Reservation {
     protected int numberOfNights;
-    protected String checkInDay;
-    protected double totalPrice;
+    private String checkInDay;
+    protected double deposit;
+    protected int totalPrice;
     protected int reservationNumber;
     protected String firstName;
     protected String lastName;
     protected String hotelType;
     protected String typeOfPurchase;
-    protected int sum = 0;
+    private int sum = 0;
+    protected LocalDate cancelDate;
     protected LocalDate checkIn;
     protected LocalDate checkOut;
+    private DayOfWeek day;
     ArrayList<Room> rooms = new ArrayList<>();
+    private ArrayList<String> days = new ArrayList<>();
+    List<LocalDate> totalDates = new ArrayList<>();
+    List<DayOfWeek> totalDays = new ArrayList<>();
     ArrayList<Integer> reservationNumbers = new ArrayList<>();
     ArrayList<Reservation> reservations = new ArrayList<>();
     ArrayList<Reservation> cancellations = new ArrayList<>();
+
+    public Reservation() {
+    }
 
     public Reservation(int reservationNumber, String firstName, String lastName, String hotelType, ArrayList<Room> rooms, int numberOfNights, LocalDate checkIn, String typeOfPurchase) {
         this.reservationNumber = generateReservationNumber();
@@ -32,6 +42,7 @@ public class Reservation {
         this.checkIn = checkIn;
         this.typeOfPurchase = typeOfPurchase;
         this.checkOut = checkIn.plusDays(numberOfNights);
+        totalPrice = calculateTotalPrice(rooms);
     }
 
     public void pickRooms(Room... room) {
@@ -39,27 +50,32 @@ public class Reservation {
     }
 
     public int generateReservationNumber() {
-        reservationNumber = (int) (Math.random()* 1000000);
-        for(int i = 0; i < reservationNumbers.size(); i++) {
-            if(reservationNumbers.get(i) != reservationNumber) {
+        reservationNumber = (int) (Math.random() * 1000000);
+        for (int i = 0; i < reservationNumbers.size(); i++) {
+            if (reservationNumbers.get(i) != reservationNumber) {
                 reservationNumbers.add(reservationNumber);
-            }else{
-                reservationNumber = (int) (Math.random()* 1000000);
+            } else {
+                reservationNumber = (int) (Math.random() * 1000000);
             }
         }
         return reservationNumber;
     }
 
-    protected double getDeposit() {
-        for (int i = 0; i < rooms.size(); i++) {
-            //sum += (rooms.get(i));
-        }
-        double deposit = (sum) * (2 / 10);  //deposit is 20 percent room price
+    public double getDeposit() {
+        deposit = totalPrice * 0.2;
         return deposit;
     }
 
     public String getHotelType() {
         return hotelType;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     public int getNumberOfNights() {
@@ -74,6 +90,10 @@ public class Reservation {
         return reservationNumber;
     }
 
+    public String getTypeOfPurchase() {
+        return typeOfPurchase;
+    }
+
     public double getTotalPrice() {
         return totalPrice;
     }
@@ -86,6 +106,7 @@ public class Reservation {
         return firstName + " " + lastName;
     }
 
+
     public void showReservations() {
         for (Reservation r : reservations) {
             System.out.println(r.toString());
@@ -97,9 +118,9 @@ public class Reservation {
         reservations.add(reservation);
         reservation.saveReservation();
         System.out.println("Congratulations!" + "\n" + "You have booked " + rooms.size() + " rooms in " + hotelType + "" + " for " + this.numberOfNights + " nights." + "\n" +
-                            "Here are you're reservation details: " + "\n" + reservation);
+                "Here are you're reservation details: " + "\n" + reservation);
         System.out.println("With a deposit of €" + reservation.getDeposit() + "\n" + "Your total payment is €" + totalPrice + "\n" +
-                            "Your reservation number is " + reservationNumber + reservation);
+                "Your reservation number is " + reservationNumber + reservation);
     }
 
     public void saveCancellation() throws FileNotFoundException {
@@ -124,8 +145,11 @@ public class Reservation {
         PrintWriter pw = new PrintWriter(fos);
 
         pw.println(this.getName() + "," + this.getReservationNumber() + "," + getHotelType() + "," + rooms.size() + "," + this.getNumberOfNights() + "," + this.getCheckInDate() + "," + getCheckOut() + "," + "S" + "," + this.getDeposit() + "," + totalPrice);
-        for (Room r : rooms) {
-            pw.println(",,,,,,,,,," + r.getRoomType() + "," + r.getNoOfAdults() + "," + r.getNoOfChildren() + "," + r.isBreakfast());
+        for (int i = 0; i < rooms.size(); i++) {
+            while (i < rooms.size()) {
+                pw.println(",,,,,,,,,," + rooms.get(i).getRoomType() + "," + rooms.get(i).getNoOfAdults() + "," + rooms.get(i).getNoOfChildren() + "," + rooms.get(i).isBreakfast());
+                i++;
+            }
         }
         pw.close();
     }
@@ -135,29 +159,44 @@ public class Reservation {
             reservations.remove(reservation);
             cancellations.add(reservation);
             r.saveCancellation();
-            //cancelDate.setTime(new Date());
-
-            /* long difference = checkIn.getTimeInMillis() - cancelDate.getTimeInMillis();
-            boolean moreThanDay = difference > MILLIS_PER_DAY;
+            cancelDate = LocalDate.now();
+            Period period = Period.between(cancelDate, checkIn);
+            int diff = period.getDays();
+            boolean moreThanDay = diff >= 1;
             if (moreThanDay) {
                 System.out.println("Because this booking is not withing 24 hours of the check in date, you are entitled to a full refund.");
             } else {
                 System.out.println("Refund not applicable because your check in date is in less than 24 hours, our apologies");
             }
-            System.out.println("Your reservation for " + checkIn + " has been cancelled.");
         }
+    }
 
-             */
+    public int calculateTotalPrice(ArrayList<Room> rooms) {
+        while (!checkIn.equals(checkOut)) {
+            totalDates.add(checkIn);
+            day = checkIn.getDayOfWeek();
+            totalDays.add(day);
+            checkIn = checkIn.plusDays(1);
         }
+        for (Room r : rooms) {
+            for (DayOfWeek d : totalDays) {
+                sum += r.getCostOneDay(r.getRoomType(), d);
+            }
+        }
+        totalPrice = sum;
+        return totalPrice;
     }
 
     @Override
     public String toString() {
-        return "Reservation Number: " + reservationNumber + "\n" +
-                "Name: " + firstName + " " + lastName + "\n" +
-                "Number of nights: " + numberOfNights + "\n" +
-                "Check-In Date " + checkInDay + " " + checkIn + "\n" +
-                "Reservation type: " + typeOfPurchase + "\n" +
+        return "Reservation Number: " + this.getReservationNumber() + "\n" +
+                "Name: " + this.getFirstName() + " " + this.getLastName() + "\n" +
+                "Hotel: " + this.getHotelType() + "\n" +
+                "Number of nights: " + this.getNumberOfNights() + "\n" +
+                "Check-In Date: " + this.getCheckInDate() + "\n" +
+                "Check-Out Date: " + this.getCheckOut() + "\n" +
+                "Reservation type: " + this.getTypeOfPurchase() + "\n" +
+                "Total price: " + this.getTotalPrice() + "\n" +
                 "Your room information is: " + "\n" + rooms;
     }
 }
