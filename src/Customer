@@ -34,7 +34,7 @@ public class Customer {
 
     protected int totalCost;        //8
     protected int deposit;          //9
-
+    
     public void getUserInput() throws FileNotFoundException {
         Menu menu = new Menu();
         ArrayList<Room> rooms = new ArrayList<>();
@@ -161,7 +161,7 @@ public class Customer {
                 }
                 Reservation reservation = new Reservation(resNumber, firstNameOnRes, lastNameOnRes, hotelType, rooms, numberOfNights, checkIn, typeOfPurchase);
                 reservation.makeReservation(reservation);
-                getUserInput();
+       
 
     }
 
