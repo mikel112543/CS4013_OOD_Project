@@ -1,20 +1,19 @@
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.List;
 
 public class Reservation {
     protected int numberOfNights;
     protected int totalCost;
     protected double deposit;
-    protected double sum = 0;
-    protected double totalPrice;
-    protected double reservationNumber;
+    protected int sum = 0;
+    protected int totalPrice;
+    protected int reservationNumber;
     protected String firstName;
     protected String lastName;
     protected LocalDate checkIn;
@@ -22,11 +21,12 @@ public class Reservation {
     protected LocalDate cancelDate;
     protected String typeOfPurchase;
     protected String hotelType;
-    protected int day, month, year;
+    private DayOfWeek day;
     private ArrayList<String> days = new ArrayList<>();
     private final static long MILLIS_PER_DAY = 24 * 60 * 60 * 1000;
-    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
     ArrayList<Room> rooms = new ArrayList<>();
+    List<LocalDate> totalDates = new ArrayList<>();
+    List<DayOfWeek> totalDays = new ArrayList<>();
     ArrayList<Double> reservationNumbers = new ArrayList<>();
     ArrayList<Reservation> reservations = new ArrayList<>();
     ArrayList<Reservation> cancellations = new ArrayList<>();
@@ -48,6 +48,8 @@ public class Reservation {
         this.firstName = firstName;
         this.lastName = lastName;
         this.hotelType = hotelType;
+        this.checkIn = checkIn;
+        checkOut = checkIn.plusDays(numberOfNights);
         this.rooms = rooms;
         this.numberOfNights = numberOfNights;
         this.typeOfPurchase = typeOfPurchase;
@@ -79,8 +81,20 @@ public class Reservation {
         }
     }
 
-    public double getTotalPrice(Room rooms) {
-        
+    public double getTotalPrice(ArrayList<Room> rooms) {
+        while (!checkIn.isAfter(checkOut)) {
+            totalDates.add(checkIn);
+            day = checkIn.getDayOfWeek();
+            totalDays.add(day);
+            checkIn = checkIn.plusDays(1);
+        }
+        for(Room r: rooms){
+            for(DayOfWeek d: totalDays){
+                sum += r.getCostOneDay(r.getRoomType(),d);
+            }
+        }
+        totalPrice = sum;
+        return totalPrice;
     }
 
     public double getReservationNumber() {
