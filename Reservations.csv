@@ -1,0 +1,14 @@
+Name, Reservation Number, Hotel, Number of rooms, Number of nights, Check in, Check out, S/AP, Deposit, Total cost, Room, Adults, Children, Breakfast Included
+Name, Reservation Number, Hotel, Number of rooms, Number of nights, Check in, Check out, S/AP, Deposit, Total cost, Room, Adults, Children, Breakfast Included
+null null,0.0,null,0,0,null,null,S,0.0,0.0
+null null,0.0,null,0,0,null,null,S,0.0,0.0
+null null,0.0,null,0,0,null,null,S,0.0,0.0
+michael danaehr,102463.0,Five Star,1,10,2010-10-08,null,S,0.0,0.0
+,,,,,,,,,,Deluxe Double,2,0,true
+Aaron Foster,844491.0,Four Star,2,10,2015-08-10,null,S,0.0,0.0
+,,,,,,,,,,Executive Double,2,0,false
+,,,,,,,,,,Executive Single,1,1,false
+John Maguire,378643.0,Five Star,1,12,2010-09-25,2010-10-07,S,0.0,0.0
+,,,,,,,,,,Deluxe Double,2,0,true
+Donagh Dorman,261881.0,Five Star,1,10,2019-11-27,2019-12-07,S,0.0,0.0
+,,,,,,,,,,Deluxe Double,2,0,true

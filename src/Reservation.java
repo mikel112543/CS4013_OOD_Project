@@ -1,31 +1,54 @@
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 public class Reservation {
-    protected ReservationDate checkIn;
     protected int numberOfNights;
     protected String checkInDay;
-    protected double sum = 0;
     protected double totalPrice;
-    protected double reservationNumber;
+    protected int reservationNumber;
     protected String firstName;
     protected String lastName;
-    protected Date checkInDate;
+    protected String hotelType;
     protected String typeOfPurchase;
-    protected int day, month, year;
-    private final static long MILLIS_PER_DAY = 24 * 60 * 60 * 1000;
-    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    protected int sum = 0;
+    protected LocalDate checkIn;
+    protected LocalDate checkOut;
     ArrayList<Room> rooms = new ArrayList<>();
-    ArrayList<Double> reservationNumbers = new ArrayList<>();
+    ArrayList<Integer> reservationNumbers = new ArrayList<>();
     ArrayList<Reservation> reservations = new ArrayList<>();
     ArrayList<Reservation> cancellations = new ArrayList<>();
 
+    public Reservation(int reservationNumber, String firstName, String lastName, String hotelType, ArrayList<Room> rooms, int numberOfNights, LocalDate checkIn, String typeOfPurchase) {
+        this.reservationNumber = generateReservationNumber();
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.hotelType = hotelType;
+        this.rooms = rooms;
+        this.numberOfNights = numberOfNights;
+        this.checkIn = checkIn;
+        this.typeOfPurchase = typeOfPurchase;
+        this.checkOut = checkIn.plusDays(numberOfNights);
+    }
 
     public void pickRooms(Room... room) {
         //rooms.add(Room);
     }
 
-
+    public int generateReservationNumber() {
+        reservationNumber = (int) (Math.random()* 1000000);
+        for(int i = 0; i < reservationNumbers.size(); i++) {
+            if(reservationNumbers.get(i) != reservationNumber) {
+                reservationNumbers.add(reservationNumber);
+            }else{
+                reservationNumber = (int) (Math.random()* 1000000);
+            }
+        }
+        return reservationNumber;
+    }
 
     protected double getDeposit() {
         for (int i = 0; i < rooms.size(); i++) {
@@ -35,41 +58,57 @@ public class Reservation {
         return deposit;
     }
 
-    public Reservation() {
+    public String getHotelType() {
+        return hotelType;
     }
 
-
-    public Reservation(int reservationNumber, String firstName, String lastName, ArrayList<Room> rooms, int numberOfNights, ReservationDate checkIn, String checkInDay, String typeOfPurchase) {
-        this.reservationNumber = (int) (Math.random() * 1000000);
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.rooms = rooms;
-        this.numberOfNights = numberOfNights;
-        this.checkIn = checkIn;
-        this.checkInDay = checkInDay;
-        this.typeOfPurchase = typeOfPurchase;
+    public int getNumberOfNights() {
+        return numberOfNights;
     }
 
-    public void addReservation(Reservation reservation) {
-        reservations.add(reservation);
-        System.out.println("Congratulations! Thank you for making a booking with L4 Hotels.");
-        System.out.println("Here are your reservation details: ");
-        System.out.println(reservation);
-        rooms.clear();
+    public LocalDate getCheckOut() {
+        return checkOut;
     }
 
-    public void cancelReservation(Reservation reservation) {
+    public int getReservationNumber() {
+        return reservationNumber;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public LocalDate getCheckInDate() {
+        return checkIn;
+    }
+
+    public String getName() {
+        return firstName + " " + lastName;
+    }
+
+    public void showReservations() {
         for (Reservation r : reservations) {
-            reservations.remove(reservation);
-            cancellations.add(reservation);
-            Date cancelDate = new Date();
-            boolean moreThanDay = Math.abs(checkInDate.getTime() - cancelDate.getTime()) > MILLIS_PER_DAY;
-            if (moreThanDay) {
-                System.out.println("Because this booking is not withing 24 hours of the check in date, you are entitled to a full refund.");
-            } else {
-                System.out.println("Refund not applicable because your check in date is in less than 24 hours, our apologies");
-            }
-            System.out.println("Your reservation for " + checkInDate + " has been cancelled.");
+            System.out.println(r.toString());
+        }
+    }
+
+    public void makeReservation(Reservation reservation) throws FileNotFoundException {
+        //Reservation reservation = new Reservation(firstName, lastName, hotelType, rooms, numberOfNights, checkIn, typeOfPurchase);
+        reservations.add(reservation);
+        reservation.saveReservation();
+        System.out.println("Congratulations!" + "\n" + "You have booked " + rooms.size() + " rooms in " + hotelType + "" + " for " + this.numberOfNights + " nights." + "\n" +
+                            "Here are you're reservation details: " + "\n" + reservation);
+        System.out.println("With a deposit of €" + reservation.getDeposit() + "\n" + "Your total payment is €" + totalPrice + "\n" +
+                            "Your reservation number is " + reservationNumber + reservation);
+    }
+
+    public void saveCancellation() throws FileNotFoundException {
+        FileOutputStream fos = new FileOutputStream("Cancellations.csv", true);
+        PrintWriter pw = new PrintWriter(fos);
+
+        pw.println(this.getName() + "," + this.getReservationNumber() + "," + this.hotelType + "," + rooms.size() + "," + this.getNumberOfNights() + "," + this.getCheckInDate() + "," + getCheckOut() + "," + this.getDeposit() + "," + totalPrice);
+        for (Room r : rooms) {
+            pw.println(",,,,,,,,," + r.getRoomType() + "," + r.getNoOfAdults() + "," + r.getNoOfChildren() + "," + r.isBreakfast());
         }
     }
 
@@ -80,25 +119,35 @@ public class Reservation {
         return rooms.toString();
     }
 
-    public double getReservationNumber() {
-        return reservationNumber;
+    public void saveReservation() throws FileNotFoundException {
+        FileOutputStream fos = new FileOutputStream("Reservations.csv", true);
+        PrintWriter pw = new PrintWriter(fos);
+
+        pw.println(this.getName() + "," + this.getReservationNumber() + "," + getHotelType() + "," + rooms.size() + "," + this.getNumberOfNights() + "," + this.getCheckInDate() + "," + getCheckOut() + "," + "S" + "," + this.getDeposit() + "," + totalPrice);
+        for (Room r : rooms) {
+            pw.println(",,,,,,,,,," + r.getRoomType() + "," + r.getNoOfAdults() + "," + r.getNoOfChildren() + "," + r.isBreakfast());
+        }
+        pw.close();
     }
 
-    public double getTotalPrice() {
-        return totalPrice;
-    }
+    public void cancelReservation(Reservation reservation) throws FileNotFoundException {
+        for (Reservation r : reservations) {
+            reservations.remove(reservation);
+            cancellations.add(reservation);
+            r.saveCancellation();
+            //cancelDate.setTime(new Date());
 
-    public Date getCheckInDate() {
-        return checkInDate;
-    }
+            /* long difference = checkIn.getTimeInMillis() - cancelDate.getTimeInMillis();
+            boolean moreThanDay = difference > MILLIS_PER_DAY;
+            if (moreThanDay) {
+                System.out.println("Because this booking is not withing 24 hours of the check in date, you are entitled to a full refund.");
+            } else {
+                System.out.println("Refund not applicable because your check in date is in less than 24 hours, our apologies");
+            }
+            System.out.println("Your reservation for " + checkIn + " has been cancelled.");
+        }
 
-    public String getName() {
-        return firstName + " " + lastName;
-    }
-
-    public void showReservations() {
-        for(Reservation r : reservations) {
-            System.out.println(r);
+             */
         }
     }
 
@@ -110,6 +159,5 @@ public class Reservation {
                 "Check-In Date " + checkInDay + " " + checkIn + "\n" +
                 "Reservation type: " + typeOfPurchase + "\n" +
                 "Your room information is: " + "\n" + rooms;
-
     }
 }
