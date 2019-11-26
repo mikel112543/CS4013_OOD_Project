@@ -58,11 +58,11 @@ public class Customer {
             if (month == 4 || month == 6 || month == 9 || month == 11) {
                 System.out.println("Day of Check-In? (1-30)");
             } else if (month == 2 && year % 4 == 0) {
-                System.out.println("Day of Check-In? (1-29");
+                System.out.println("Day of Check-In? (1-29)");
             } else if (month == 2) {
                 System.out.println("Day of Check-In? (1-28)");
             } else {
-                System.out.println("Day of Check-In? (1-31");
+                System.out.println("Day of Check-In? (1-31)");
             }
             day = input.nextInt();
             if (month == 1 || month == 2) {
@@ -85,62 +85,63 @@ public class Customer {
                 hotelType = "Three Star";
             }
 
-            String[] fiveStarHotel = new String[]{"Deluxe Double", "Deluxe Twin", "Deluxe Single", "Deluxe Family"};
-            String[] fourStarHotel = new String[]{"Executive Double", "Executive Twin", "Executive Single"};
-            String[] threeStarHotel = new String[]{"Classic Double", "Classic Twin", "Classic Single"};
+        String[] fiveStarHotel = new String []{"Deluxe Double" , "Deluxe Twin" , "Deluxe Single" , "Deluxe Family"};
+        int[] fiveStarOccupancies = new int[]{35, 25, 10, 10};
+        String[] fourStarHotel = new String[]{"Executive Double" , "Executive Twin" , "Executive Single"};
+        int[] fourStarOccupancies = new int[]{40,32,12};
+        String[] threeStarHotel = new String[]{"Classic Double" , "Classic Twin" , "Classic Single"};
+        int[] threeStarOccupancies = new int[]{45,45,10};
+        int i = 1;
+        int typeOfRoom;
+        while (i <= numberOfRooms) {
+            System.out.println("Do you want breakfast for room " + i + "(Y/N)");
+            String decision = input.next();
+            breakfast = decision.equalsIgnoreCase("y");
+            System.out.println("Select room type for room " + i);
+            switch (hotel) {
+                case 5:
+                    for (int j = 0; j < fiveStarHotel.length; j++) {
+                        System.out.print((j + 1)+ ")");
+                        System.out.println(fiveStarHotel[j] +": Amount available = " + fiveStarOccupancies[j]);
 
-            int i = 1;
-            int typeOfRoom;
-            while (i <= numberOfRooms) {
-
-
-                System.out.println("Select room type for room " + i);
-                switch (hotel) {
-                    case 5:
-                        for (int j = 0; j < fiveStarHotel.length; j++) {
-                            System.out.print((j + 1) + ")");
-                            System.out.println(fiveStarHotel[j]);
-                        }
-                        typeOfRoom = input.nextInt();
-                        System.out.println("Do you want breakfast for room " + i + "(Y/N)");
-                        String decision = input.next();
-                        breakfast = decision.equalsIgnoreCase("y");
-
-
-                        switch (typeOfRoom) {
-                            case 1:
-                            case 2:
-                            case 3:
-                                occupancyDoubleSingleTwin(input, typeOfRoom);
-                                roomType = fiveStarHotel[typeOfRoom - 1];
-                                break;
-                            default:
-                                System.out.println("1 or 2 or 3 adults for this room");
-                                adultOcc = input.nextInt();
-                                System.out.println("1 or 0 children for this room");
-                                childOcc = input.nextInt();
-                                roomType = fiveStarHotel[typeOfRoom - 1];
-                                break;
-                        }
-                        break;
-
-                    case 4:
-                        for (int j = 0; j < fourStarHotel.length; j++) {
-                            System.out.print((j + 1) + ")");
-                            System.out.println(fourStarHotel[j]);
-                        }
-                        typeOfRoom = input.nextInt();
-                        occupancyDoubleSingleTwin(input, typeOfRoom);
-                        roomType = fourStarHotel[typeOfRoom - 1];
-                        break;
-                    default:
-                        for (int j = 0; j < threeStarHotel.length; j++) {
-                            System.out.print((j + 1) + ")");
-                            System.out.println(threeStarHotel[j]);
-                        }
-                        typeOfRoom = input.nextInt();
-                        occupancyDoubleSingleTwin(input, typeOfRoom);
-                        roomType = threeStarHotel[typeOfRoom - 1];
+                    }
+                    typeOfRoom = input.nextInt();
+                    fiveStarOccupancies[typeOfRoom]--;
+                    switch (typeOfRoom) {
+                        case 1:
+                        case 2:
+                        case 3:
+                            occupancyDoubleSingleTwin(input, typeOfRoom);
+                            roomType = fiveStarHotel[typeOfRoom - 1];
+                            break;
+                        default:
+                            System.out.println("1 or 2 or 3 adults for this room");
+                            adultOcc = input.nextInt();
+                            System.out.println("1 or 0 children for this room");
+                            childOcc = input.nextInt();
+                            roomType = fiveStarHotel[typeOfRoom - 1];
+                            break;
+                    }
+                    break;
+                case 4:
+                    for (int j = 0; j < fourStarHotel.length; j++) {
+                        System.out.print((j + 1)+ ")");
+                        System.out.println(fourStarHotel[j] +": Amount available = " + fourStarOccupancies[j-1]);
+                    }
+                    typeOfRoom = input.nextInt();
+                    fourStarOccupancies[typeOfRoom]--;
+                    occupancyDoubleSingleTwin(input, typeOfRoom);
+                    roomType = fourStarHotel[typeOfRoom - 1];
+                    break;
+                default:
+                    for (int j = 0; j < threeStarHotel.length; j++) {
+                        System.out.print((j + 1)+ ")");
+                        System.out.println(threeStarHotel[j] +": Amount available = " + threeStarOccupancies[j-1]);
+                    }
+                    typeOfRoom = input.nextInt();
+                    threeStarOccupancies[typeOfRoom]--;
+                    occupancyDoubleSingleTwin(input, typeOfRoom);
+                    roomType = threeStarHotel[typeOfRoom - 1];
                 }
 
                 //checkInDay (eg mon), number of nights (eg 20), then get Cost of each room.
