@@ -36,11 +36,10 @@ public class Customer {
     protected int deposit;          //9
 
     public void getUserInput() throws FileNotFoundException {
-
+        Menu menu = new Menu();
         ArrayList<Room> rooms = new ArrayList<>();
 
         Scanner input = new Scanner(System.in);
-
 
             System.out.println("What is your first name?");
             firstNameOnRes = input.next();
@@ -70,34 +69,8 @@ public class Customer {
                 month = (month == 1) ? 13 : 14;
                 year--;
             }
-            int dayOfWeek = (day + (26 * (month + 1)) / 10 + (year % 100)
-                    + (year % 100) / 4 + (year / 100) / 4 + 5 * (year / 100)) % 7;
+
             LocalDate checkIn =  LocalDate.of(year, month, day);
-
-
-            switch (dayOfWeek) {
-                case 0:
-                    checkInDay = ("Saturday");
-                    break;
-                case 1:
-                    checkInDay = ("Sunday");
-                    break;
-                case 2:
-                    checkInDay = ("Monday");
-                    break;
-                case 3:
-                    checkInDay = ("Tuesday");
-                    break;
-                case 4:
-                    checkInDay = ("Wednesday");
-                    break;
-                case 5:
-                    checkInDay = ("Thursday");
-                    break;
-                case 6:
-                    checkInDay = ("Friday");
-                    break;
-            }
 
             System.out.println("How many rooms would you like to book?");
             numberOfRooms = input.nextInt();
@@ -180,7 +153,6 @@ public class Customer {
             }
             System.out.println("Would you like to reserve this booking? your mother(Y / N) ");
             String reserve = input.next();
-            if (reserve.equalsIgnoreCase("y")) {
                 System.out.println("What type of Reservation method will you be using? " + "\n S)Standard Booking" + "\n AP)Advanced Purchase");
                 resType = input.next().toUpperCase();
                 if (resType.equalsIgnoreCase("s")) {
@@ -189,9 +161,6 @@ public class Customer {
                 Reservation reservation = new Reservation(resNumber, firstNameOnRes, lastNameOnRes, hotelType, rooms, numberOfNights, checkIn, typeOfPurchase);
                 reservation.makeReservation(reservation);
                 getUserInput();
-            } else {
-                getUserInput();
-            }
 
     }
 
