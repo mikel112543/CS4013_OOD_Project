@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Name, Reservation Number, Hotel, Number of rooms, Number of nights, Check in, Check out, S/AP, Deposit, Total cost, Room, Adults, Children, Breakfast Included
 Name, Reservation Number, Hotel, Number of rooms, Number of nights, Check in, Check out, S/AP, Deposit, Total cost, Room, Adults, Children, Breakfast Included
 null null,0.0,null,0,0,null,null,S,0.0,0.0
@@ -74,3 +75,6 @@ m d,107257,Five Star,2,2,2019-11-28,2019-11-28,AP,60.0,285
 m d,82427,Five Star,2,2,2019-11-28,2019-11-28,AP,60.0,285
 ,,,,,,,,,,Deluxe Double,1,0,true
 ,,,,,,,,,,Deluxe Double,1,0,true
+=======
+Name, Reservation Number, Hotel, Number of rooms, Number of nights, Check in, Check out, S/AP, Deposit, Total cost, Room, Adults, Children, Breakfast Included
+>>>>>>> c252a87c43b672f11132589abf0e8a66c6dee0a0
