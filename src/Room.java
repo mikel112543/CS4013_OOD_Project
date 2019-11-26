@@ -1,4 +1,4 @@
-import java.util.Calendar;
+import java.time.DayOfWeek;
 
 public class Room {
     private String roomType;
@@ -9,10 +9,9 @@ public class Room {
     private int noOfAdults = 1;
     private int noOfNights;
     private String hotelType;
-    Calendar checkIn;
-    private String dayOfWeek;
+    private DayOfWeek dayOfWeek;
     private String[] rooms = new String[]{"Deluxe Double", "Deluxe Twin", "Deluxe Single", "Deluxe Family", "Executive Double", "Executive Single", "Classic Double", "Classic Twin", "Classic Single"};
-    private String[] days = new String[]{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+    private DayOfWeek[] days = new DayOfWeek[]{DayOfWeek.MONDAY,DayOfWeek.TUESDAY,DayOfWeek.WEDNESDAY,DayOfWeek.THURSDAY,DayOfWeek.FRIDAY,DayOfWeek.SATURDAY,DayOfWeek.SUNDAY};
     private int r;
     private int d;
     private int cost;
@@ -82,18 +81,6 @@ public class Room {
         this.breakfast = true;
     }
 
-    public String getDayOfWeek(ReservationDate checkIn) {
-        int day = (checkIn.getDay() + (26 * (checkIn.getMonth() + 1)) / 10 + (checkIn.getYear() % 100)
-                + (checkIn.getYear() % 100) / 4 + (checkIn.getYear() / 100) / 4 + 5 * (checkIn.getYear() / 100)) % 7;
-        for (int i = 0; i < days.length; i++) {
-            if (day == i) {
-                dayOfWeek = days[i];
-                return dayOfWeek;
-            }
-        }
-        return "Not a date";
-    }
-
     public int getRoomIndex(String room) {
         for (int i = 0; i < rooms.length; i++) {
             if (rooms[i].equals(room)) {
@@ -103,7 +90,7 @@ public class Room {
         return r;
     }
 
-    public int getDayIndex(String day) {
+    public int getDayIndex(DayOfWeek day) {
         for (int i = 0; i < days.length; i++) {
             if (days[i].equals(day)) {
                 d = i;
@@ -112,7 +99,7 @@ public class Room {
         return d;
     }
 
-    public int getCostOneDay(String room, String day) {
+    public int getCostOneDay(String room, DayOfWeek day) {
         r = this.getRoomIndex(room);
         d = this.getDayIndex(day);
         for (int i = 0; i < prices.length; i++) {
