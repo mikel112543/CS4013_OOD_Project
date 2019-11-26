@@ -29,7 +29,7 @@ public class Room {
             {50, 50, 50, 60, 75, 75, 50},
     };
 
-    public Room(String roomType, int noOfAdults, int noOfChildren, boolean breakfast, LocalDate checkIn) {
+    public Room(String roomType, int noOfAdults, int noOfChildren, boolean breakfast) {
         this.roomType = roomType;
         this.noOfAdults = noOfAdults;
         this.noOfChildren = noOfChildren;
