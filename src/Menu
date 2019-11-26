@@ -3,7 +3,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 public class Menu {
     boolean checkIn = false;
-
+    boolean checkOut = true;
 
     public void Run(Reservation reservation) throws FileNotFoundException {
 
@@ -60,11 +60,16 @@ public class Menu {
                                 r.cancelReservation(inputResNumber);
                                 break;
                             case "A":
-                                //checkInStuff
-
+                                //checkInStuff  
+                                System.out.println("You have checked in successfully!");
+                                checkIn = true;
+                                checkOut = false;
                                 break;
                             case "B":
                                 //checkOutStuff
+                                System.out.println("You have checked out successfully! We hope you enjoyed your stay at L4 Hotels");
+                                checkOut = true;
+                                checkIn = false;
                                 break;
                             default:
                                 System.out.println("Thank you for using L4 Hotels");
