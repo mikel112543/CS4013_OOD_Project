@@ -1,3 +1,10 @@
+/**
+ * @author - Michael_Danaher - 18221726
+ * @author - John_Maguire - 18250076
+ * @author - Aaron_Foster - 18232086
+ * @author - Ayoub_Jdair - 18266401
+ */
+
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 
@@ -12,7 +19,7 @@ public class Room {
     LocalDate checkIn;
     private DayOfWeek dayOfWeek;
     private String[] rooms = new String[]{"Deluxe Double", "Deluxe Twin", "Deluxe Single", "Deluxe Family", "Executive Double", "Executive Single", "Classic Double", "Classic Twin", "Classic Single"};
-    private DayOfWeek[] days = new DayOfWeek[]{DayOfWeek.MONDAY,DayOfWeek.TUESDAY,DayOfWeek.WEDNESDAY,DayOfWeek.THURSDAY,DayOfWeek.FRIDAY,DayOfWeek.SATURDAY,DayOfWeek.SUNDAY};
+    private DayOfWeek[] days = new DayOfWeek[]{DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY, DayOfWeek.FRIDAY, DayOfWeek.SATURDAY, DayOfWeek.SUNDAY};
     private int r;
     private int d;
     private int cost;
@@ -29,6 +36,12 @@ public class Room {
             {50, 50, 50, 60, 75, 75, 50},
     };
 
+    /**
+     * @param roomType     - Type of Room
+     * @param noOfAdults   - Number of adults
+     * @param noOfChildren - Number of children
+     * @param breakfast    - Breakfast whether Y or N
+     */
     public Room(String roomType, int noOfAdults, int noOfChildren, boolean breakfast) {
         this.roomType = roomType;
         this.noOfAdults = noOfAdults;
@@ -81,6 +94,10 @@ public class Room {
         this.breakfast = true;
     }
 
+    /**
+     * @param room - Index for room system is searching for
+     * @return - Index of room
+     */
     public int getRoomIndex(String room) {
         for (int i = 0; i < rooms.length; i++) {
             if (rooms[i].equals(room)) {
@@ -90,6 +107,10 @@ public class Room {
         return r;
     }
 
+    /**
+     * @param day - Index of day system
+     * @return - Index of day
+     */
     public int getDayIndex(DayOfWeek day) {
         for (int i = 0; i < days.length; i++) {
             if (days[i].equals(day)) {
@@ -99,6 +120,11 @@ public class Room {
         return d;
     }
 
+    /**
+     * @param room - Cost of specific room
+     * @param day  - Cost on specific day
+     * @return - cost of specific room on specific day
+     */
     public int getCostOneDay(String room, DayOfWeek day) {
         r = this.getRoomIndex(room);
         d = this.getDayIndex(day);
@@ -110,6 +136,9 @@ public class Room {
         return cost;
     }
 
+    /**
+     * @return - Object room as String
+     */
     @Override
     public String toString() {
         return roomType + "\n" +

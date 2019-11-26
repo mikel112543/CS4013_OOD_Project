@@ -1,3 +1,10 @@
+/**
+ * @author - Michael_Danaher - 18221726
+ * @author - John_Maguire - 18250076
+ * @author - Aaron_Foster - 18232086
+ * @author - Ayoub_Jdair - 18266401
+ */
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
@@ -32,6 +39,16 @@ public class Reservation {
     public Reservation() {
     }
 
+    /**
+     * @param reservationNumber - Reservation Number
+     * @param firstName         - First name
+     * @param lastName          - Last name
+     * @param hotelType         - Hotel type
+     * @param rooms             - List of rooms
+     * @param numberOfNights    - Number of nights
+     * @param checkIn           - Check-In date
+     * @param typeOfPurchase    - Type of purchase S/AP
+     */
     public Reservation(int reservationNumber, String firstName, String lastName, String hotelType, ArrayList<Room> rooms, int numberOfNights, LocalDate checkIn, String typeOfPurchase) {
         this.reservationNumber = generateReservationNumber();
         this.firstName = firstName;
@@ -49,6 +66,9 @@ public class Reservation {
         //rooms.add(Room);
     }
 
+    /**
+     * @return - Randomly generated reservation number
+     */
     public int generateReservationNumber() {
         reservationNumber = (int) (Math.random() * 1000000);
         for (int i = 0; i < reservationNumbers.size(); i++) {
@@ -61,6 +81,9 @@ public class Reservation {
         return reservationNumber;
     }
 
+    /**
+     * @return - Deposit needed for room
+     */
     public double getDeposit() {
         deposit = totalPrice * 0.2;
         return deposit;
@@ -113,6 +136,10 @@ public class Reservation {
         }
     }
 
+    /**
+     * @param reservation - Reservation to be added
+     * @throws FileNotFoundException - If csv file is not found
+     */
     public void makeReservation(Reservation reservation) throws FileNotFoundException {
         //Reservation reservation = new Reservation(firstName, lastName, hotelType, rooms, numberOfNights, checkIn, typeOfPurchase);
         reservations.add(reservation);
@@ -123,6 +150,9 @@ public class Reservation {
                 "Your reservation number is " + reservationNumber + reservation);
     }
 
+    /**
+     * @throws FileNotFoundException - If csv file is not found
+     */
     public void saveCancellation() throws FileNotFoundException {
         FileOutputStream fos = new FileOutputStream("Cancellations.csv", true);
         PrintWriter pw = new PrintWriter(fos);
@@ -133,6 +163,9 @@ public class Reservation {
         }
     }
 
+    /**
+     * @return - return information for each room
+     */
     public String roomInfo() {
         for (int i = 0; i < rooms.size(); i++) {
             System.out.println(rooms.toString());
@@ -140,6 +173,10 @@ public class Reservation {
         return rooms.toString();
     }
 
+    /**
+     *
+     * @throws FileNotFoundException - If csv file is not found
+     */
     public void saveReservation() throws FileNotFoundException {
         FileOutputStream fos = new FileOutputStream("Reservations.csv", true);
         PrintWriter pw = new PrintWriter(fos);
@@ -154,9 +191,14 @@ public class Reservation {
         pw.close();
     }
 
+    /**
+     *
+     * @param reservationNumber - Cancel based on reservation
+     * @throws FileNotFoundException - If csv file is not found
+     */
     public void cancelReservation(int reservationNumber) throws FileNotFoundException {
         for (Reservation r : reservations) {
-            if(r.getReservationNumber() == reservationNumber) {
+            if (r.getReservationNumber() == reservationNumber) {
                 reservations.remove(r);
                 cancellations.add(r);
             }
@@ -173,6 +215,11 @@ public class Reservation {
         }
     }
 
+    /**
+     *
+     * @param rooms - All rooms within the reservation
+     * @return - Total price of reservation
+     */
     public int calculateTotalPrice(ArrayList<Room> rooms) {
         while (!checkIn.equals(checkOut)) {
             totalDates.add(checkIn);
@@ -189,6 +236,10 @@ public class Reservation {
         return totalPrice;
     }
 
+    /**
+     *
+     * @return - Object reservation as String
+     */
     @Override
     public String toString() {
         return "Reservation Number: " + this.getReservationNumber() + "\n" +

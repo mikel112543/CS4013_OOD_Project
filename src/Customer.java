@@ -1,10 +1,13 @@
+/**
+ * @author - Michael_Danaher - 18221726
+ * @author - John_Maguire - 18250076
+ * @author - Aaron_Foster - 18232086
+ * @author - Ayoub_Jdair - 18266401
+ */
+
 import java.io.FileNotFoundException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Scanner;
 
 public class Customer {
@@ -34,6 +37,9 @@ public class Customer {
     protected int totalCost;        //8
     protected int deposit;          //9
 
+    /**
+     * @throws FileNotFoundException - If csv file is not found
+     */
     public void getUserInput() throws FileNotFoundException {
         Menu menu = new Menu();
         ArrayList<Room> rooms = new ArrayList<>();
@@ -64,12 +70,7 @@ public class Customer {
             System.out.println("Day of Check-In? (1-31)");
         }
         day = input.nextInt();
-        if (month == 1 || month == 2) {
-            month = (month == 1) ? 13 : 14;
-            year--;
-        }
-
-        LocalDate checkIn =  LocalDate.of(year, month, day);
+        LocalDate checkIn = LocalDate.of(year, month, day);
 
         System.out.println("How many rooms would you like to book?");
         numberOfRooms = input.nextInt();
@@ -84,12 +85,12 @@ public class Customer {
             hotelType = "Three Star";
         }
 
-        String[] fiveStarHotel = new String []{"Deluxe Double" , "Deluxe Twin" , "Deluxe Single" , "Deluxe Family"};
+        String[] fiveStarHotel = new String[]{"Deluxe Double", "Deluxe Twin", "Deluxe Single", "Deluxe Family"};
         int[] fiveStarOccupancies = new int[]{35, 25, 10, 10};
-        String[] fourStarHotel = new String[]{"Executive Double" , "Executive Twin" , "Executive Single"};
-        int[] fourStarOccupancies = new int[]{40,32,12};
-        String[] threeStarHotel = new String[]{"Classic Double" , "Classic Twin" , "Classic Single"};
-        int[] threeStarOccupancies = new int[]{45,45,10};
+        String[] fourStarHotel = new String[]{"Executive Double", "Executive Twin", "Executive Single"};
+        int[] fourStarOccupancies = new int[]{40, 32, 12};
+        String[] threeStarHotel = new String[]{"Classic Double", "Classic Twin", "Classic Single"};
+        int[] threeStarOccupancies = new int[]{45, 45, 10};
         int i = 1;
         int typeOfRoom;
         while (i <= numberOfRooms) {
@@ -100,8 +101,8 @@ public class Customer {
             switch (hotel) {
                 case 5:
                     for (int j = 0; j < fiveStarHotel.length; j++) {
-                        System.out.print((j + 1)+ ")");
-                        System.out.println(fiveStarHotel[j] +": Amount available = " + fiveStarOccupancies[j]);
+                        System.out.print((j + 1) + ")");
+                        System.out.println(fiveStarHotel[j] + ": Amount available = " + fiveStarOccupancies[j]);
 
                     }
                     typeOfRoom = input.nextInt();
@@ -124,8 +125,8 @@ public class Customer {
                     break;
                 case 4:
                     for (int j = 0; j < fourStarHotel.length; j++) {
-                        System.out.print((j + 1)+ ")");
-                        System.out.println(fourStarHotel[j] +": Amount available = " + fourStarOccupancies[j-1]);
+                        System.out.print((j + 1) + ")");
+                        System.out.println(fourStarHotel[j] + ": Amount available = " + fourStarOccupancies[j - 1]);
                     }
                     typeOfRoom = input.nextInt();
                     fourStarOccupancies[typeOfRoom]--;
@@ -134,8 +135,8 @@ public class Customer {
                     break;
                 default:
                     for (int j = 0; j < threeStarHotel.length; j++) {
-                        System.out.print((j + 1)+ ")");
-                        System.out.println(threeStarHotel[j] +": Amount available = " + threeStarOccupancies[j-1]);
+                        System.out.print((j + 1) + ")");
+                        System.out.println(threeStarHotel[j] + ": Amount available = " + threeStarOccupancies[j - 1]);
                     }
                     typeOfRoom = input.nextInt();
                     threeStarOccupancies[typeOfRoom]--;
@@ -151,7 +152,7 @@ public class Customer {
             i++;
             //method to add the rom into the arraylist of rooms with parameters being "roomType, adultOcc, childOcc, breakfast, cost";
         }
-        System.out.println("Would you like to reserve this booking? your mother(Y / N) ");
+        System.out.println("Would you like to reserve this booking? (Y / N) ");
         String reserve = input.next();
         System.out.println("What type of Reservation method will you be using? " + "\n S)Standard Booking" + "\n AP)Advanced Purchase");
         resType = input.next().toUpperCase();
@@ -164,6 +165,10 @@ public class Customer {
 
     }
 
+    /**
+     * @param input      - User input is the type of room
+     * @param typeOfRoom - Int representing room type
+     */
     public void occupancyDoubleSingleTwin(Scanner input, int typeOfRoom) {
         switch (typeOfRoom) {
             case 1:

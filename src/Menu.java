@@ -1,10 +1,21 @@
+/**
+ * @author - Michael_Danaher - 18221726
+ * @author - John_Maguire - 18250076
+ * @author - Aaron_Foster - 18232086
+ * @author - Ayoub_Jdair - 18266401
+ */
 
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+
 public class Menu {
     boolean checkIn = false;
     boolean checkOut = true;
 
+    /**
+     * @param reservation - Run reservation system
+     * @throws FileNotFoundException - If csv file is not found
+     */
     public void Run(Reservation reservation) throws FileNotFoundException {
 
         Customer customer = new Customer();
@@ -22,7 +33,7 @@ public class Menu {
 
                 System.out.println("M)ake Reservation   C)ancellation    Q)uit");
                 String choice = input.next().toUpperCase();
-                switch (choice){
+                switch (choice) {
                     case "M":
                         customer.getUserInput();
                         break;
@@ -50,7 +61,7 @@ public class Menu {
                         /* DESK PERSONNEL STUFF */
                         System.out.println("M)ake Reservation    C)ancel Reservation    A)CheckIn      B)CheckOut     Q)uit");
                         String choiceB = input.next().toUpperCase();
-                        switch(choiceB){
+                        switch (choiceB) {
                             case "M":
                                 customer.getUserInput();
                                 break;

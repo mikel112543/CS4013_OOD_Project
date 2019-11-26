@@ -1,3 +1,10 @@
+/**
+ * @author - Michael_Danaher - 18221726
+ * @author - John_Maguire - 18250076
+ * @author - Aaron_Foster - 18232086
+ * @author - Ayoub_Jdair - 18266401
+ */
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
@@ -11,6 +18,16 @@ public class AdvancePurchase extends Reservation {
     private int standardPrice;
     private int reservationNumber;
 
+    /**
+     * @param reservationNumber - Reservation Number
+     * @param firstName         - First name
+     * @param lastName          - Last name
+     * @param hotelType         - Hotel type
+     * @param rooms             - List of rooms
+     * @param numberOfNights    - Number of nights
+     * @param checkIn           - Check-In date
+     * @param typeOfPurchase    - Type of purchase S/AP
+     */
     public AdvancePurchase(int reservationNumber, String firstName, String lastName, String hotelType, ArrayList<Room> rooms, int numberOfNights, LocalDate checkIn, String typeOfPurchase) {
         this.reservationNumber = generateReservationNumber();
         this.firstName = firstName;
@@ -29,12 +46,19 @@ public class AdvancePurchase extends Reservation {
         return standardPrice;
     }
 
+    /**
+     * @return Total price after 5% discount
+     */
     public int calculateDiscountPrice() {
         double discount = standardPrice * .05;
         totalPrice = (int) (standardPrice - discount);
         return totalPrice;
     }
 
+    /**
+     * @param reservation - Reservation to be added
+     * @throws FileNotFoundException - If csv file is not found
+     */
     @Override
     public void makeReservation(Reservation reservation) throws FileNotFoundException {
         reservations.add(reservation);
@@ -44,10 +68,14 @@ public class AdvancePurchase extends Reservation {
         System.out.println("With a deposit of €" + reservation.getDeposit() + "\n" + "Price was " + this.getStandardPrice() + "\n" + "With a 5% discount for purchasing in advance of your check in, your price is €" + this.calculateDiscountPrice() + "\n" + "Your reservation number is " + reservationNumber);
     }
 
+    /**
+     * @param reservationNumber - Cancel based on reservation
+     * @throws FileNotFoundException - If csv file is not found
+     */
     @Override
     public void cancelReservation(int reservationNumber) throws FileNotFoundException {
         for (Reservation r : reservations) {
-            if(r.getReservationNumber() == reservationNumber) {
+            if (r.getReservationNumber() == reservationNumber) {
                 reservations.remove(r);
                 cancellations.add(r);
             }
@@ -56,6 +84,9 @@ public class AdvancePurchase extends Reservation {
         }
     }
 
+    /**
+     * @throws FileNotFoundException - If csv file is not found
+     */
     @Override
     public void saveReservation() throws FileNotFoundException {
         FileOutputStream fos = new FileOutputStream("Reservations.csv", true);
@@ -68,6 +99,9 @@ public class AdvancePurchase extends Reservation {
         pw.close();
     }
 
+    /**
+     * @return - Object Advance Purchase to String
+     */
     @Override
     public String toString() {
         return "Reservation Number: " + this.getReservationNumber() + "\n" +
