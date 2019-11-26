@@ -11,7 +11,7 @@ public class Room {
     private String hotelType;
     Calendar checkIn;
     private String dayOfWeek;
-    private String[] rooms = new String[]{"Delux Double", "Delux Twin", "Delux Single", "Delux Family", "Exectutive Double", "Executive Single", "Classic Double", "Classic Twin", "Classic Single"};
+    private String[] rooms = new String[]{"Deluxe Double", "Deluxe Twin", "Deluxe Single", "Deluxe Family", "Executive Double", "Executive Single", "Classic Double", "Classic Twin", "Classic Single"};
     private String[] days = new String[]{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
     private int r;
     private int d;

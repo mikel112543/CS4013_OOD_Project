@@ -2,6 +2,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -15,12 +17,13 @@ public class Reservation {
     protected double reservationNumber;
     protected String firstName;
     protected String lastName;
-    protected Date checkIn;
-    protected Date checkOut;
-    protected Calendar cancelDate;
+    protected LocalDate checkIn;
+    protected LocalDate checkOut;
+    protected LocalDate cancelDate;
     protected String typeOfPurchase;
     protected String hotelType;
     protected int day, month, year;
+    private ArrayList<String> days = new ArrayList<>();
     private final static long MILLIS_PER_DAY = 24 * 60 * 60 * 1000;
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
     ArrayList<Room> rooms = new ArrayList<>();
@@ -41,7 +44,7 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(String firstName, String lastName, String hotelType, ArrayList<Room> rooms, int numberOfNights, Date checkIn, String typeOfPurchase) {
+    public Reservation(String firstName, String lastName, String hotelType, ArrayList<Room> rooms, int numberOfNights, LocalDate checkIn, String typeOfPurchase) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.hotelType = hotelType;
@@ -50,7 +53,7 @@ public class Reservation {
         this.typeOfPurchase = typeOfPurchase;
     }
 
-    public void makeReservation(String firstName, String lastName, String hotelType, ArrayList<Room> rooms, int numberOfNights, Date checkIn, String typeOfPurchase) throws FileNotFoundException {
+    public void makeReservation(String firstName, String lastName, String hotelType, ArrayList<Room> rooms, int numberOfNights, LocalDate checkIn, String typeOfPurchase) throws FileNotFoundException {
         Reservation reservation = new Reservation(firstName, lastName, hotelType, rooms, numberOfNights, checkIn, typeOfPurchase);
         reservations.add(reservation);
         reservation.saveReservation();
@@ -59,23 +62,25 @@ public class Reservation {
     }
 
 
-       public void cancelReservation(int resNumber) {
+    public void cancelReservation(Reservation reservation) throws FileNotFoundException {
         for (Reservation r : reservations) {
-            if (r.getReservationNumber() == resNumber) {
-                reservations.remove(r);
-                cancellations.add(r);
-            }
-        }
-            Date cancelDate = new Date();
-            boolean moreThanDay = Math.abs(checkInDate.getTime() - cancelDate.getTime()) > MILLIS_PER_DAY;
+            reservations.remove(reservation);
+            cancellations.add(reservation);
+            r.saveCancellation();
+            cancelDate = LocalDate.now();
+            Period period = Period.between(cancelDate,checkIn);
+            boolean moreThanDay = difference > MILLIS_PER_DAY;
             if (moreThanDay) {
                 System.out.println("Because this booking is not withing 24 hours of the check in date, you are entitled to a full refund.");
             } else {
                 System.out.println("Refund not applicable because your check in date is in less than 24 hours, our apologies");
             }
-            System.out.println("Your reservation for " + checkInDate + " has been cancelled.");
         }
+    }
 
+    public double getTotalPrice(Room rooms) {
+
+    }
 
     public double getReservationNumber() {
         return reservationNumber;
@@ -114,11 +119,11 @@ public class Reservation {
         }
     }
 
-    public Date getCheckInDate() {
+    public LocalDate getCheckInDate() {
         return checkIn;
     }
 
-    public Date getCheckOut() {
+    public LocalDate getCheckOut() {
         return checkOut;
     }
 
