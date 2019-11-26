@@ -9,6 +9,7 @@ import java.util.Date;
 public class AdvancePurchase extends Reservation {
     private int totalPrice;
     private int standardPrice;
+    private int reservationNumber;
 
     public AdvancePurchase(int reservationNumber, String firstName, String lastName, String hotelType, ArrayList<Room> rooms, int numberOfNights, LocalDate checkIn, String typeOfPurchase) {
         this.reservationNumber = generateReservationNumber();
@@ -44,11 +45,13 @@ public class AdvancePurchase extends Reservation {
     }
 
     @Override
-    public void cancelReservation(Reservation reservation) throws FileNotFoundException {
+    public void cancelReservation(int reservationNumber) throws FileNotFoundException {
         for (Reservation r : reservations) {
-            reservations.remove(reservation);
-            cancellations.add(reservation);
-            reservation.saveCancellation();
+            if(r.getReservationNumber() == reservationNumber) {
+                reservations.remove(r);
+                cancellations.add(r);
+            }
+            r.saveCancellation();
             System.out.println("Your reservation for " + checkIn + " has been cancelled.");
         }
     }
