@@ -154,10 +154,12 @@ public class Reservation {
         pw.close();
     }
 
-    public void cancelReservation(Reservation reservation) throws FileNotFoundException {
+    public void cancelReservation(int reservationNumber) throws FileNotFoundException {
         for (Reservation r : reservations) {
-            reservations.remove(reservation);
-            cancellations.add(reservation);
+            if(r.getReservationNumber() == reservationNumber) {
+                reservations.remove(r);
+                cancellations.add(r);
+            }
             r.saveCancellation();
             cancelDate = LocalDate.now();
             Period period = Period.between(cancelDate, checkIn);
