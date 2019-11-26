@@ -29,61 +29,60 @@ public class Customer {
     protected int priceOfRoom;
     private String hotelType;
     private Reservation reservation;
-    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
 
     protected int totalCost;        //8
     protected int deposit;          //9
-    
+
     public void getUserInput() throws FileNotFoundException {
         Menu menu = new Menu();
         ArrayList<Room> rooms = new ArrayList<>();
 
         Scanner input = new Scanner(System.in);
 
-            System.out.println("What is your first name?");
-            firstNameOnRes = input.next();
+        System.out.println("What is your first name?");
+        firstNameOnRes = input.next();
 
 
-            System.out.println("What is your last name?");
-            lastNameOnRes = input.next();
+        System.out.println("What is your last name?");
+        lastNameOnRes = input.next();
 
-            System.out.println("How many nights will you be staying for?");
-            numberOfNights = input.nextInt();
+        System.out.println("How many nights will you be staying for?");
+        numberOfNights = input.nextInt();
 
-            System.out.println("Year of Check-In?");
-            year = input.nextInt();
-            System.out.println("Month of Check-In? (1-12)");
-            month = input.nextInt();
-            if (month == 4 || month == 6 || month == 9 || month == 11) {
-                System.out.println("Day of Check-In? (1-30)");
-            } else if (month == 2 && year % 4 == 0) {
-                System.out.println("Day of Check-In? (1-29)");
-            } else if (month == 2) {
-                System.out.println("Day of Check-In? (1-28)");
-            } else {
-                System.out.println("Day of Check-In? (1-31)");
-            }
-            day = input.nextInt();
-            if (month == 1 || month == 2) {
-                month = (month == 1) ? 13 : 14;
-                year--;
-            }
+        System.out.println("Year of Check-In?");
+        year = input.nextInt();
+        System.out.println("Month of Check-In? (1-12)");
+        month = input.nextInt();
+        if (month == 4 || month == 6 || month == 9 || month == 11) {
+            System.out.println("Day of Check-In? (1-30)");
+        } else if (month == 2 && year % 4 == 0) {
+            System.out.println("Day of Check-In? (1-29)");
+        } else if (month == 2) {
+            System.out.println("Day of Check-In? (1-28)");
+        } else {
+            System.out.println("Day of Check-In? (1-31)");
+        }
+        day = input.nextInt();
+        if (month == 1 || month == 2) {
+            month = (month == 1) ? 13 : 14;
+            year--;
+        }
 
-            LocalDate checkIn =  LocalDate.of(year, month, day);
+        LocalDate checkIn =  LocalDate.of(year, month, day);
 
-            System.out.println("How many rooms would you like to book?");
-            numberOfRooms = input.nextInt();
+        System.out.println("How many rooms would you like to book?");
+        numberOfRooms = input.nextInt();
 
-            System.out.println("Select Star Hotel (5, 4, 3)");
-            hotel = input.nextInt();
-            if (hotel == 5) {
-                hotelType = "Five Star";
-            } else if (hotel == 4) {
-                hotelType = "Four Star";
-            } else if (hotel == 3) {
-                hotelType = "Three Star";
-            }
+        System.out.println("Select Star Hotel (5, 4, 3)");
+        hotel = input.nextInt();
+        if (hotel == 5) {
+            hotelType = "Five Star";
+        } else if (hotel == 4) {
+            hotelType = "Four Star";
+        } else if (hotel == 3) {
+            hotelType = "Three Star";
+        }
 
         String[] fiveStarHotel = new String []{"Deluxe Double" , "Deluxe Twin" , "Deluxe Single" , "Deluxe Family"};
         int[] fiveStarOccupancies = new int[]{35, 25, 10, 10};
@@ -142,26 +141,26 @@ public class Customer {
                     threeStarOccupancies[typeOfRoom]--;
                     occupancyDoubleSingleTwin(input, typeOfRoom);
                     roomType = threeStarHotel[typeOfRoom - 1];
-                }
-
-                //checkInDay (eg mon), number of nights (eg 20), then get Cost of each room.
-                //number of nights / 7 = number of weeks stayed.... numberOfWeeks x costOfOneWeek = costForAllWeeks.
-                //number of nights % 7 = leftover days. ifCheckInDay is monday, go monday + leftoverDays.. eg if Monday and 6 leftOver is 2, monday + tuesday.
-                Room room = new Room(roomType, adultOcc, childOcc, breakfast);
-                rooms.add(room);
-                i++;
-                //method to add the rom into the arraylist of rooms with parameters being "roomType, adultOcc, childOcc, breakfast, cost";
             }
-            System.out.println("Would you like to reserve this booking? your mother(Y / N) ");
-            String reserve = input.next();
-                System.out.println("What type of Reservation method will you be using? " + "\n S)Standard Booking" + "\n AP)Advanced Purchase");
-                resType = input.next().toUpperCase();
-                if (resType.equalsIgnoreCase("s")) {
-                    typeOfPurchase = "Standard Booking";
-                }
-                Reservation reservation = new Reservation(resNumber, firstNameOnRes, lastNameOnRes, hotelType, rooms, numberOfNights, checkIn, typeOfPurchase);
-                reservation.makeReservation(reservation);
-       
+
+            //checkInDay (eg mon), number of nights (eg 20), then get Cost of each room.
+            //number of nights / 7 = number of weeks stayed.... numberOfWeeks x costOfOneWeek = costForAllWeeks.
+            //number of nights % 7 = leftover days. ifCheckInDay is monday, go monday + leftoverDays.. eg if Monday and 6 leftOver is 2, monday + tuesday.
+            Room room = new Room(roomType, adultOcc, childOcc, breakfast);
+            rooms.add(room);
+            i++;
+            //method to add the rom into the arraylist of rooms with parameters being "roomType, adultOcc, childOcc, breakfast, cost";
+        }
+        System.out.println("Would you like to reserve this booking? your mother(Y / N) ");
+        String reserve = input.next();
+        System.out.println("What type of Reservation method will you be using? " + "\n S)Standard Booking" + "\n AP)Advanced Purchase");
+        resType = input.next().toUpperCase();
+        if (resType.equalsIgnoreCase("s")) {
+            typeOfPurchase = "Standard Booking";
+        }
+        Reservation reservation = new Reservation(resNumber, firstNameOnRes, lastNameOnRes, hotelType, rooms, numberOfNights, checkIn, typeOfPurchase);
+        reservation.makeReservation(reservation);
+
 
     }
 
